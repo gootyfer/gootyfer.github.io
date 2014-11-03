@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Israel Gutiérrez]]></title>
-  <link href="http://gootyfer.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: hack | Israel Gutiérrez]]></title>
+  <link href="http://gootyfer.github.io/blog/categories/hack/atom.xml" rel="self"/>
   <link href="http://gootyfer.github.io/"/>
   <updated>2014-11-03T16:24:51+01:00</updated>
   <id>http://gootyfer.github.io/</id>
