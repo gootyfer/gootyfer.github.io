@@ -1,0 +1,18 @@
+---
+import { profile } from '../data/profile';
+---
+
+<header class="site-header">
+  <a class="site-name" href="/">
+    {profile.name}
+  </a>
+  <nav aria-label="Professional links">
+    <ul>
+      {profile.links.map((link) => (
+        <li>
+          <a href={link.href}>{link.label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>

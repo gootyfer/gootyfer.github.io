@@ -1,17 +1,11 @@
 ---
-const title = 'Israel Gutiérrez';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { profile } from '../data/profile';
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{title}</title>
-  </head>
-  <body>
-    <main>
-      <h1>{title}</h1>
-    </main>
-  </body>
-</html>
+<BaseLayout
+  title={`${profile.name} — Product and engineering leader`}
+  description="Personal website of Israel Gutiérrez, a product and engineering leader based in Madrid."
+>
+  <h1>{profile.name}</h1>
+</BaseLayout>

@@ -1,0 +1,23 @@
+---
+import { profile } from '../data/profile';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <p>
+    © {currentYear} {profile.name}
+  </p>
+  <nav aria-label="Footer links">
+    <ul>
+      {profile.links.map((link) => (
+        <li>
+          <a href={link.href}>{link.label}</a>
+        </li>
+      ))}
+      <li>
+        <a href="/rss.xml">RSS</a>
+      </li>
+    </ul>
+  </nav>
+</footer>
