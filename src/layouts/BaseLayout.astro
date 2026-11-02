@@ -1,6 +1,10 @@
 ---
+import { getImage } from 'astro:assets';
+
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import socialCard from '../assets/social-card.jpg';
+import { profile } from '../data/profile';
 import '../styles/global.css';
 
 interface Props {
@@ -8,11 +12,63 @@ interface Props {
   description: string;
   image?: string;
   article?: boolean;
+  publishedAt?: Date;
+  updatedAt?: Date;
   language?: string;
 }
 
-const { title, description, language = 'en' } = Astro.props;
+const {
+  title,
+  description,
+  image,
+  article = false,
+  publishedAt,
+  updatedAt,
+  language = 'en',
+} = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const defaultSocialCard = await getImage({ src: socialCard, width: 1200 });
+const socialImageUrl = new URL(image ?? defaultSocialCard.src, Astro.site);
+const sameAs = profile.links
+  .filter(({ type }) => type !== 'email')
+  .map(({ href }) => href);
+const person = {
+  '@type': 'Person',
+  name: profile.name,
+  url: canonicalUrl.href,
+  jobTitle: 'Product and engineering leader',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Gobierto',
+  },
+  sameAs,
+};
+const structuredData = article
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: title.replace(/ — Israel Gutiérrez$/, ''),
+      description,
+      url: canonicalUrl.href,
+      image: socialImageUrl.href,
+      inLanguage: language,
+      datePublished: publishedAt?.toISOString(),
+      dateModified: (updatedAt ?? publishedAt)?.toISOString(),
+      author: {
+        '@type': 'Person',
+        name: profile.name,
+        url: new URL('/', Astro.site).href,
+        sameAs,
+      },
+    }
+  : {
+      '@context': 'https://schema.org',
+      ...person,
+    };
+const safeStructuredData = JSON.stringify(structuredData).replace(
+  /</g,
+  '\\u003c',
+);
 ---
 
 <!doctype html>
@@ -22,6 +78,41 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Israel Gutiérrez — Notes"
+      href={new URL('/rss.xml', Astro.site)}
+    />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:locale"
+      content={language === 'es' ? 'es_ES' : 'en_GB'}
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    {article && publishedAt && (
+      <meta
+        property="article:published_time"
+        content={publishedAt.toISOString()}
+      />
+    )}
+    {article && updatedAt && (
+      <meta
+        property="article:modified_time"
+        content={updatedAt.toISOString()}
+      />
+    )}
+    <script type="application/ld+json" set:html={safeStructuredData} />
     <title>{title}</title>
   </head>
   <body>

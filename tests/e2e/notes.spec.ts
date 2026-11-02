@@ -40,3 +40,28 @@ test('serves a valid empty RSS feed', async ({ request }) => {
   expect(body).not.toContain('<item>');
   expect(body).not.toContain(draftTitle);
 });
+
+test('adds article metadata to the preserved Spanish article', async ({
+  page,
+}) => {
+  await page.goto(
+    '/blog/2014/11/03/hackea-tu-educacion-durante-la-universidad/',
+  );
+
+  await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+  await expect(page.locator('meta[property="og:type"]')).toHaveAttribute(
+    'content',
+    'article',
+  );
+  await expect(
+    page.locator('meta[property="article:published_time"]'),
+  ).toHaveAttribute('content', /^2014-11-03/);
+
+  const jsonLd = JSON.parse(
+    (await page.locator('script[type="application/ld+json"]').textContent()) ??
+      '',
+  ) as { '@type': string; datePublished: string; author: { name: string } };
+  expect(jsonLd['@type']).toBe('Article');
+  expect(jsonLd.datePublished).toMatch(/^2014-11-03/);
+  expect(jsonLd.author.name).toBe('Israel Gutiérrez');
+});

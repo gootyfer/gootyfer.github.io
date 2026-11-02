@@ -1,5 +1,65 @@
 import { expect, test } from '@playwright/test';
 
+test('publishes complete identity and sharing metadata', async ({ page }) => {
+  await page.goto('/');
+
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'https://israelgutierrez.es/',
+  );
+  await expect(page).toHaveTitle(
+    'Israel Gutiérrez — Product and engineering leader',
+  );
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    'content',
+    /product and engineering leader/i,
+  );
+  await expect(page.locator('meta[property="og:type"]')).toHaveAttribute(
+    'content',
+    'website',
+  );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    /^https:\/\/israelgutierrez\.es\//,
+  );
+  await expect(
+    page.locator('link[type="application/rss+xml"]'),
+  ).toHaveAttribute('href', 'https://israelgutierrez.es/rss.xml');
+
+  const jsonLd = JSON.parse(
+    (await page.locator('script[type="application/ld+json"]').textContent()) ??
+      '',
+  ) as { '@type': string; url: string; sameAs: string[] };
+  expect(jsonLd['@type']).toBe('Person');
+  expect(jsonLd.url).toBe('https://israelgutierrez.es/');
+  expect(jsonLd.sameAs).toEqual([
+    'https://www.linkedin.com/in/israelgutierrezrojas/',
+    'https://github.com/gootyfer',
+  ]);
+  expect(JSON.stringify(jsonLd)).not.toContain('mailto:');
+});
+
+test('serves crawler guidance and a useful not-found page', async ({
+  page,
+  request,
+}) => {
+  const robots = await request.get('/robots.txt');
+  expect(robots.ok()).toBe(true);
+  expect(await robots.text()).toContain(
+    'Sitemap: https://israelgutierrez.es/sitemap-index.xml',
+  );
+
+  const notFound = await page.goto('/this-page-does-not-exist');
+  expect(notFound?.status()).toBe(404);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText(
+    'Page not found',
+  );
+  await expect(page.getByRole('link', { name: /home/i })).toHaveAttribute(
+    'href',
+    '/',
+  );
+});
+
 test('renders the minimal professional site shell', async ({ page }) => {
   await page.goto('/');
 

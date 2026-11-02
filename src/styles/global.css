@@ -320,6 +320,17 @@ main {
   margin-inline: auto;
 }
 
+.not-found {
+  max-width: var(--measure-reading);
+  margin-inline: auto;
+  padding-block: var(--space-7);
+}
+
+.not-found h1 {
+  margin-top: var(--space-3);
+  font-size: clamp(3.5rem, 10vw, 7rem);
+}
+
 .compatibility-page h1 {
   margin-top: var(--space-3);
   font-size: clamp(2.7rem, 7vw, 5rem);
