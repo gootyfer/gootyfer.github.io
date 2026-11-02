@@ -293,6 +293,43 @@ main {
   font-size: 0.85rem;
 }
 
+.archive-notice {
+  width: fit-content;
+  margin-block: var(--space-5) 0;
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-surface);
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.prose blockquote {
+  margin-block: var(--space-5);
+  margin-inline: 0;
+  padding-left: var(--space-4);
+  border-left: 0.2rem solid var(--color-accent);
+  color: var(--color-muted);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+}
+
+.compatibility-page {
+  max-width: var(--measure-reading);
+  margin-inline: auto;
+}
+
+.compatibility-page h1 {
+  margin-top: var(--space-3);
+  font-size: clamp(2.7rem, 7vw, 5rem);
+}
+
+.compatibility-page p:not(.eyebrow) {
+  margin-top: var(--space-5);
+  font-size: 1.15rem;
+}
+
 .site-footer {
   padding-block: var(--space-5);
   border-top: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent);

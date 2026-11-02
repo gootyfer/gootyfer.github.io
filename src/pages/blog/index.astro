@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const articlePath =
+  '/blog/2014/11/03/hackea-tu-educacion-durante-la-universidad/';
+---
+
+<BaseLayout
+  title="Writing archive — Israel Gutiérrez"
+  description="Compatibility page for the previous Israel Gutiérrez blog."
+>
+  <section class="compatibility-page">
+    <p class="eyebrow">Blog archive</p>
+    <h1>Writing has moved</h1>
+    <p>
+      New writing lives in <a href="/#notes">Current notes</a>. The original
+      2014 article remains available as a historical archive.
+    </p>
+    <p>
+      <a href={articlePath}>Hackea tu educación durante la universidad</a>
+    </p>
+  </section>
+</BaseLayout>

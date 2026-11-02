@@ -1,0 +1,28 @@
+---
+import { getEntry, render } from 'astro:content';
+
+import NoteLayout from '../../../../../layouts/NoteLayout.astro';
+
+const article = await getEntry(
+  'archive',
+  'hackea-tu-educacion-durante-la-universidad',
+);
+
+if (!article) {
+  throw new Error('The archived 2014 article is missing.');
+}
+
+const { Content } = await render(article);
+---
+
+<NoteLayout
+  title={article.data.title}
+  description={article.data.description}
+  publishedAt={article.data.publishedAt}
+  language={article.data.language}
+  notice="Archived from 2014"
+  backHref="/"
+  backLabel="Back to the current site"
+>
+  <Content />
+</NoteLayout>
