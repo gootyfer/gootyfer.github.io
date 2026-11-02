@@ -12,6 +12,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test:unit": "vitest run",
+    "test:config": "vitest run tests/config",
     "test:e2e": "env -u NO_COLOR playwright test",
     "test:e2e:chromium": "env -u NO_COLOR playwright test --project=chromium"
   },
@@ -29,6 +30,7 @@
     "prettier-plugin-astro": "^1.1.2",
     "start-server-and-test": "^3.0.13",
     "typescript": "^6.0.3",
-    "vitest": "^5.0.5"
+    "vitest": "^5.0.5",
+    "yaml": "^2.9.1"
   }
 }
