@@ -1,4 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
+import { mkdirSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
+const firefoxHome = join(tmpdir(), 'israelgutierrez-playwright-firefox');
+mkdirSync(firefoxHome, { recursive: true });
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -12,6 +18,19 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'firefox',
+      use: {
+        ...devices['Desktop Firefox'],
+        launchOptions: {
+          env: { CFFIXED_USER_HOME: firefoxHome },
+        },
+      },
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
     },
   ],
   webServer: {

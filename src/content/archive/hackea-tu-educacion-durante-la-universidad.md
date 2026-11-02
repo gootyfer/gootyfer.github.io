@@ -10,13 +10,13 @@ Empecé la uni pensando que lo iba a aprender _todo_. El esfuerzo merecerá la p
 
 En este artículo parto de las expectativas que tenía antes de comenzar una carrera universitaria (al menos como las recuerdo ahora años después). ¿Qué se ha cumplido? ¿Qué no? ¿Cómo mejoraría mi experiencia? Aunque desarrollé una carrera técnica (Ing. de Teleco) la mayoría de las vivencias y consejos son muy similares en compañeros de otras carreras.
 
-### Expectativas
+## Expectativas
 
 Como arrancaba en el artículo, mis expectativas para con la universidad eran enormes. En parte tiene la culpa el “_hype_” que meten en tu cabeza en los últimos años de instituto con la maldita selectividad, los puntos y las ferias para conocer universidades. Sea lo que fuere lo que me iban a enseñar representaba la base de mi futuro trabajo. Y los padres siempre nos han dicho que el trabajo es uno de los pilares de nuestra vida adulta, ¿no?
 
 La universidad empezó. Al principio todo era muy complicado. Clases, prácticas, entregas, exámenes. Un ritmo frenético. Implicaba una dedicación enorme. Tuve que dejar de lado alguna de las aficiones de los últimos años de instituto, como la guitarra (la novia es más complicado :P). Pero simplemente había que adaptarse. Poco a poco nos acostumbramos a las reglas de juego, y simplemente hay que adaptarse a ellas. Hay que saber en qué centrarse. Hay que saber gestionarse el tiempo. Hay que saber hacer exámenes. Y de nuevo tenemos todo bajo control.
 
-### Logros
+## Logros
 
 Cuando estaba muy cerca de terminar los últimos vestigios de la carrera me hice una reflexión. ¿Qué había aprendido? ¿Qué me gustaba? ¿En qué quería trabajar? ¿Qué quería hacer con mi vida? Por desgracia, el ritmo frenético de los últimos años no me había permitido pararme a pensar, a intentar responder algunas de estas preguntas. Ahora, con más perspectiva, no todas las preguntas tienen una respuesta clara. Pero al menos soy consciente de ello.
 
@@ -32,7 +32,7 @@ A tenor de todo esto surgen algunos problemas que conocemos todos. Altas cifras 
 
 Y al final, todos salen perdiendo. Los egresados de la universidad no encuentran trabajo. Y se siguen formando en aspectos teóricos. O lo encuentran cercano a la esclavitud. O lejano a lo que les motiva. Y las empresas no encuentran el talento que buscan.
 
-### Hackeando tu educación
+## Hackeando tu educación
 
 No os quiero ni insinuar que dejéis la carrera. Yo creo que se le puede sacar provecho si se va con la mentalidad adecuada. Simplemente quiero que quede claro que no debe ser lo único que hagáis en esos años. Que un complemento a la actividad académica va a ser muy beneficioso.
 
@@ -44,6 +44,6 @@ Por tanto, mi consejo es que en paralelo a la carrera que estés estudiando haga
 
 **Asociaciones y grupos locales.** Participa en asociaciones de la propia universidad, donde aportando recibirás mucho más. Yo tengo la experiencia del [GUL](http://gul.es) y el desaparecido [jsuc3m](http://jsuc3m.github.io). Estos son buenos lugares para encontrar los compañeros de viaje de tus proyectos. Y si quieres llegar un paso más, busca comunidades locales en tu ciudad. Muchas de ellas podrás encontrarlas en [meetup.com](http://meetup.com) o a través de la gente que conozcas al realizar tus proyectos.
 
-### ¿Estás listo?
+## ¿Estás listo?
 
 El ritmo frenético impuesto en la carrera no te va a dejar hacer todo esto fácilmente. Pero propóntelo como meta. Dedicar 4h semanales a estas actividades. Porque el máximo beneficiario eres tú. Mejorará tu experiencia en la uni. Conocerás gente interesante. Desarrollarás otras habilidades que la carrera no te da. Y estarás mejor preparado para desarrollar un buen trabajo. Ojalá alguien me hubiera dicho esto al arrancar la uni. Y ojalá también yo le hubiera hecho caso.
