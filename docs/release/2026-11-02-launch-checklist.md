@@ -79,8 +79,9 @@ records during the web cutover.
       configuration, build, and all 66 browser tests.
 - [ ] Homepage renders at mobile and desktop widths.
 - [ ] LinkedIn, GitHub, and email links are correct.
-- [ ] Portrait is explicitly approved for public launch.
-- [ ] Public email address `me@israelgutierrez.es` is explicitly approved.
+- [x] Portrait approved by Israel for public launch on 2026-11-02.
+- [x] Public email address `me@israelgutierrez.es` approved by Israel on
+      2026-11-02.
 - [ ] Selected work and talk claims have been checked one final time.
 - [ ] Exact archived article route returns 200.
 - [ ] RSS, sitemap, robots, 404, favicon, social image, canonical metadata, and
