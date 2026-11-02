@@ -121,6 +121,116 @@ main {
   padding-block: var(--space-7);
 }
 
+.hero {
+  display: grid;
+  gap: var(--space-5);
+  align-items: end;
+  padding-block: var(--space-3) var(--space-7);
+}
+
+.hero__copy {
+  max-width: 52rem;
+}
+
+.hero h1 {
+  max-width: 14ch;
+  margin-top: var(--space-3);
+  font-size: clamp(2.65rem, 8vw, 5.8rem);
+}
+
+.hero__introduction {
+  margin-top: var(--space-5);
+  color: var(--color-muted);
+  font-size: clamp(1.05rem, 1rem + 0.25vw, 1.25rem);
+}
+
+.hero__introduction p + p {
+  margin-top: var(--space-3);
+}
+
+.portrait {
+  margin: 0;
+}
+
+.portrait img {
+  display: block;
+  width: min(100%, 30rem);
+  aspect-ratio: 1;
+  object-fit: cover;
+  filter: saturate(0.78) contrast(1.03);
+}
+
+.eyebrow,
+.metadata {
+  margin: 0;
+  color: var(--color-muted);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.085em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.content-section {
+  display: grid;
+  gap: var(--space-5);
+  padding-block: var(--space-7);
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent);
+}
+
+.section-heading h2 {
+  max-width: 18ch;
+  margin-top: var(--space-2);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+.editorial-list,
+.talk-list {
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent);
+}
+
+.editorial-row,
+.talk-row {
+  display: grid;
+  gap: var(--space-3) var(--space-5);
+  padding-block: var(--space-5);
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--color-text) 18%, transparent);
+}
+
+.editorial-row h3,
+.talk-row h3 {
+  font-size: clamp(1.45rem, 3vw, 2rem);
+}
+
+.editorial-row h3 a,
+.talk-row h3 a {
+  color: var(--color-text);
+  text-decoration-color: var(--color-accent);
+}
+
+.editorial-row p,
+.talk-row p {
+  margin-block: 0;
+}
+
+.editorial-row__heading .metadata,
+.talk-row .metadata {
+  margin-top: var(--space-2);
+}
+
+.notes-introduction {
+  max-width: var(--measure-reading);
+  font-size: clamp(1.05rem, 1rem + 0.25vw, 1.25rem);
+}
+
+.empty-state {
+  margin-top: var(--space-5);
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
 .site-footer {
   padding-block: var(--space-5);
   border-top: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent);
@@ -155,6 +265,20 @@ main {
 
   main {
     padding-block: var(--space-6);
+  }
+}
+
+@media (min-width: 50rem) {
+  .hero {
+    grid-template-columns: minmax(0, 1.65fr) minmax(16rem, 0.75fr);
+  }
+
+  .content-section {
+    grid-template-columns: minmax(13rem, 0.72fr) minmax(0, 1.5fr);
+  }
+
+  .editorial-row {
+    grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 1.2fr);
   }
 }
 

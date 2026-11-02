@@ -1,0 +1,22 @@
+---
+import { talks } from '../data/talks';
+---
+
+<section id="talks" class="content-section" aria-labelledby="talks-heading">
+  <div class="section-heading">
+    <p class="eyebrow">Selected talks</p>
+    <h2 id="talks-heading">Ideas shared in public</h2>
+  </div>
+  <div class="talk-list">
+    {talks.map((talk) => (
+      <article class="talk-row">
+        <h3>
+          <a href={talk.url}>{talk.title}</a>
+        </h3>
+        <p class="metadata">
+          {talk.event} · {talk.year}
+        </p>
+      </article>
+    ))}
+  </div>
+</section>

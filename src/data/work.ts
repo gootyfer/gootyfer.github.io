@@ -9,7 +9,7 @@ export interface WorkItem {
   url?: string;
 }
 
-export const workItems = [
+export const workItems: readonly WorkItem[] = [
   {
     id: 'gobierto',
     title: 'Gobierto',
@@ -39,4 +39,4 @@ export const workItems = [
     description:
       'Worked as a software engineer, educator, and researcher, publishing work on learning analytics and classroom orchestration before moving into product leadership.',
   },
-] as const satisfies readonly WorkItem[];
+] as const;
