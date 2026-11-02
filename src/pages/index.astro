@@ -7,6 +7,9 @@ import TalkList from '../components/TalkList.astro';
 import WorkList from '../components/WorkList.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { profile } from '../data/profile';
+import { getPublishedNotes, toNoteSummary } from '../lib/notes';
+
+const notes = (await getPublishedNotes()).map(toNoteSummary);
 ---
 
 <BaseLayout
@@ -36,5 +39,5 @@ import { profile } from '../data/profile';
 
   <WorkList />
   <TalkList />
-  <NotesList />
+  <NotesList notes={notes} />
 </BaseLayout>

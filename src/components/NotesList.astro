@@ -1,3 +1,19 @@
+---
+import type { NoteSummary } from '../lib/notes';
+
+interface Props {
+  notes: readonly NoteSummary[];
+}
+
+const { notes } = Astro.props;
+const dateFormatter = new Intl.DateTimeFormat('en', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
 <section id="notes" class="content-section" aria-labelledby="notes-heading">
   <div class="section-heading">
     <p class="eyebrow">Notes</p>
@@ -9,6 +25,24 @@
       public-sector technology, and the lessons that come from building
       products.
     </p>
-    <p class="empty-state">No notes published yet.</p>
+    {notes.length > 0 ? (
+      <div class="notes-list">
+        {notes.map((note) => (
+          <article class="note-row">
+            <h3>
+              <a href={`/notes/${note.id}/`}>{note.title}</a>
+            </h3>
+            <p class="metadata">
+              <time datetime={note.publishedAt.toISOString()}>
+                {dateFormatter.format(note.publishedAt)}
+              </time>
+            </p>
+            <p>{note.description}</p>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <p class="empty-state">No notes published yet.</p>
+    )}
   </div>
 </section>
