@@ -1,0 +1,13 @@
+dist/
+node_modules/
+.astro/
+.superpowers/
+docs/
+assets/
+blog/
+images/
+javascripts/
+stylesheets/
+atom.xml
+index.html
+sitemap.xml
