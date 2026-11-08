@@ -15,6 +15,10 @@ function note(id: string, publishedAt: string, draft = false): NoteSummary {
     description: `${id} description`,
     publishedAt: new Date(publishedAt),
     draft,
+    language: 'en',
+    kind: 'build-note',
+    readingMinutes: 4,
+    topics: ['testing'],
   };
 }
 
@@ -47,6 +51,7 @@ describe('note publication rules', () => {
       'oldest',
     ]);
     expect(original.map(({ id }) => id)).toEqual(['oldest', 'newest']);
+    expect(sortNotesNewestFirst(original)[0]).toBe(newest);
   });
 
   it('returns an empty list for an empty input', () => {

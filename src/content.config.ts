@@ -7,14 +7,24 @@ const notes = defineCollection({
     base: './src/content/notes',
     pattern: '**/*.{md,mdx}',
   }),
-  schema: z.object({
-    title: z.string().min(1),
-    description: z.string().min(1),
-    publishedAt: z.coerce.date(),
-    updatedAt: z.coerce.date().optional(),
-    draft: z.boolean(),
-    image: z.string().optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string().min(1),
+      description: z.string().min(1),
+      publishedAt: z.coerce.date(),
+      updatedAt: z.coerce.date().optional(),
+      draft: z.boolean(),
+      language: z.enum(['en', 'es']).default('en'),
+      kind: z.enum([
+        'build-note',
+        'product-practice',
+        'adult-learning',
+        'talk-note',
+      ]),
+      readingMinutes: z.number().int().positive(),
+      topics: z.array(z.string().min(1)).default([]),
+      image: image().optional(),
+    }),
 });
 
 const archive = defineCollection({

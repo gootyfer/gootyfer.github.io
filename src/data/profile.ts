@@ -10,6 +10,7 @@ export interface Profile {
   name: string;
   status: string;
   headline: string;
+  principle: string;
   introduction: readonly string[];
   links: readonly ContactLink[];
 }
@@ -17,10 +18,11 @@ export interface Profile {
 export const profile = {
   name: 'Israel Gutiérrez',
   status: 'Product Maker at Gobierto · Madrid',
-  headline: 'I lead product and engineering teams building useful technology.',
+  headline: 'Learning by making. Leading by learning.',
+  principle: 'Serious about learning / not solemn about it',
   introduction: [
-    'For more than 20 years, I have worked across software engineering, research, education, and product leadership.',
-    'Today I build products for public procurement professionals at Gobierto, using AI both inside the products and as part of how I explore, decide, and build.',
+    'I am a hands-on product leader working across product, engineering, and adult learning.',
+    'At Gobierto, I work as a Product Maker: from framing the problem to prototyping and implementation, with AI as part of the process.',
   ],
   links: [
     {

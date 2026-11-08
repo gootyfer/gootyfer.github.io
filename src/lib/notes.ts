@@ -1,4 +1,9 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import type { ImageMetadata } from 'astro';
+
+export type NoteLanguage = 'en' | 'es';
+export type NoteKind =
+  'build-note' | 'product-practice' | 'adult-learning' | 'talk-note';
 
 export interface NoteData {
   title: string;
@@ -6,7 +11,11 @@ export interface NoteData {
   publishedAt: Date;
   updatedAt?: Date;
   draft: boolean;
-  image?: string;
+  language: NoteLanguage;
+  kind: NoteKind;
+  readingMinutes: number;
+  topics: string[];
+  image?: ImageMetadata;
 }
 
 export interface NoteSummary extends NoteData {
