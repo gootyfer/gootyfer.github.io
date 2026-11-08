@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Turn the current Astro personal site into the approved Living Notebook design, publish Critical Reader as the first project and note, and add accessible Margin notes without regressing legacy routes, metadata, or publishing safety.
+**Goal:** Turn the current Astro personal site into the approved Living Notebook design, lead with Una jornada decente, publish three real projects and two notes, and add accessible Margin notes without regressing legacy routes, metadata, or publishing safety.
 
 **Architecture:** Keep the existing static Astro site, content collections, GitHub Pages workflow, and RSS pipeline. Add focused data and presentation components for the hero, featured project, learning log, career chapters, and talks; extend note frontmatter for editorial metadata; implement Margin notes with native semantic disclosure so the article remains usable without JavaScript.
 
@@ -18,7 +18,10 @@
 - Preserve `/blog/2014/11/03/hackea-tu-educacion-durante-la-universidad/`, `/blog/`, and `/blog/archives/`; the 2014 article must not appear in current Notes.
 - Use the approved warm paper, dark ink, green, yellow, rust, and quiet-rule palette; add no remote font or UI framework.
 - Show the real portrait at its intrinsic square ratio with `height: auto` and `object-fit: contain`; never stretch or crop it.
-- Use Critical Reader's real icon and 1280×800 screenshot from `gootyfer/critical-reader`.
+- Use real captures for Una jornada decente, Critical Reader, and Price Scoring Simulator; use Critical Reader's real icon and 1280×800 screenshot from `gootyfer/critical-reader`.
+- Keep the project order exact: Una jornada decente first and visually dominant, Critical Reader second, Price Scoring Simulator third.
+- Publish the supplied Una jornada decente article in Spanish as the first note; preserve its voice and add only structural editing, metadata, local imagery, and headings.
+- Link Una jornada decente to its playable site and source, Critical Reader to Chrome Web Store and source, and Price Scoring Simulator to the live simulator and source.
 - Render a deliberate typographic talk treatment when no reusable talk photograph is available; never render a broken image or pretend the fallback is a photograph.
 - Margin notes must use semantic native disclosure, work with keyboard/touch/mouse and JavaScript disabled, remain optional to understanding the article, and respect `prefers-reduced-motion`.
 - Keep LinkedIn, GitHub, email, and RSS easy to find; do not add “open to work”, consulting, or sales language.
@@ -30,8 +33,8 @@
 
 - **Missing talk photograph:** `TalkList` must render the approved green typographic fallback with no empty `img`; pinned in Task 4's fallback test.
 - **Disclosure without JavaScript:** every Margin note must expose its annotation through native `<details>/<summary>` when JavaScript is disabled; pinned in Task 5's no-JS test.
-- **Small and intermediate widths:** portrait ratio, navigation, project imagery, and long English titles must not overflow at 320, 768, or 1440px; pinned in Task 6's viewport matrix.
-- **Publishing boundary:** draft, future, archived, and current notes must remain separated across routes, homepage, RSS, and sitemap; pinned in Task 1's publication tests.
+- **Small and intermediate widths:** portrait ratio, navigation, project imagery, and long English or Spanish titles must not overflow at 320, 768, or 1440px; pinned in Task 6's viewport matrix.
+- **Publishing boundary:** the two current notes must appear in the right order while draft, future, and archived notes remain separated across routes, homepage, RSS, and sitemap; pinned in Task 1's publication tests.
 - **Legacy and sharing surface:** historical routes, canonical URLs, article metadata, social images, and JSON-LD must remain correct after the visual rebuild; pinned in Task 7's regression suite.
 
 ---
@@ -40,12 +43,16 @@
 
 ### New files
 
+- `src/assets/projects/una-jornada-decente.jpg` — real game capture for the primary feature and first note.
 - `src/assets/projects/critical-reader.jpg` — approved 1280×800 product screenshot.
 - `src/assets/projects/critical-reader-icon.png` — approved extension icon.
+- `src/assets/projects/price-scoring-simulator.jpg` — real simulator capture.
 - `src/components/Hero.astro` — Living Notebook positioning and uncropped portrait.
-- `src/components/ProjectFeature.astro` — Critical Reader “Now building” feature.
+- `src/components/ProjectFeature.astro` — primary Una jornada decente feature.
+- `src/components/ProjectList.astro` — compact secondary-project presentation.
 - `src/data/projects.ts` — typed project content and local image metadata.
-- `src/content/notes/critical-reader.md` — first published build note with Margin notes.
+- `src/content/notes/una-jornada-decente.md` — first published Spanish build note.
+- `src/content/notes/critical-reader.md` — second published build note with Margin notes.
 - `docs/superpowers/plans/2026-11-02-living-notebook-implementation.md` — this plan.
 
 ### Modified files
@@ -68,16 +75,19 @@
 - `tests/content/profile-data.test.ts` — positioning, project, and talk contracts.
 - `tests/content/notes.test.ts` — extended editorial metadata and publication rules.
 - `tests/e2e/homepage.spec.ts` — approved homepage narrative and visual structure.
-- `tests/e2e/notes.spec.ts` — public Critical Reader note, RSS, sitemap, and disclosure behavior.
+- `tests/e2e/notes.spec.ts` — both public notes, language metadata, RSS, sitemap, and disclosure behavior.
 - `tests/e2e/accessibility.spec.ts` — new note route, viewport matrix, keyboard, and reduced motion.
 - `docs/release/2026-11-02-launch-checklist.md` — approved visual direction and outstanding talk-photo gate.
 
-## Task 1: Establish Content Contracts, Assets, and the First Note
+## Task 1: Establish Content Contracts, Assets, and the First Two Notes
 
 **Files:**
 - Create: `src/assets/projects/critical-reader.jpg`
 - Create: `src/assets/projects/critical-reader-icon.png`
+- Create: `src/assets/projects/una-jornada-decente.jpg`
+- Create: `src/assets/projects/price-scoring-simulator.jpg`
 - Create: `src/data/projects.ts`
+- Create: `src/content/notes/una-jornada-decente.md`
 - Create: `src/content/notes/critical-reader.md`
 - Modify: `src/data/profile.ts`
 - Modify: `src/data/talks.ts`
@@ -89,11 +99,11 @@
 
 **Interfaces:**
 - Produces: `profile.principle: string` and the approved headline/introduction values.
-- Produces: `ProjectId = 'critical-reader'` and `Project { id, title, kicker, description, question, noteHref, sourceUrl, image, icon }` in `src/data/projects.ts`.
-- Produces: `projects: readonly Project[]`, with Critical Reader first.
+- Produces: `ProjectId = 'una-jornada-decente' | 'critical-reader' | 'price-scoring-simulator'`, `ProjectLink { label, href }`, and `Project { id, title, kicker, description, question, image, icon?, featured, noteHref?, links }` in `src/data/projects.ts`.
+- Produces: `projects: readonly Project[]`, in the exact approved order, with only Una jornada decente set to `featured: true`.
 - Produces: `Talk.image?: ImageMetadata` and `Talk.featured?: boolean`; the 2026 LechazoConf talk is `featured: true` with no image until an approved photograph exists.
 - Produces: `NoteKind = 'build-note' | 'product-practice' | 'adult-learning' | 'talk-note'`.
-- Produces: `NoteData` fields `kind: NoteKind`, `readingMinutes: number`, `topics: string[]`, and `image?: ImageMetadata` in addition to the existing publication fields.
+- Produces: `NoteLanguage = 'en' | 'es'` and `NoteData` fields `language: NoteLanguage`, `kind: NoteKind`, `readingMinutes: number`, `topics: string[]`, and `image?: ImageMetadata` in addition to the existing publication fields.
 
 - [ ] **Step 1: Extend the failing content tests**
 
@@ -101,25 +111,28 @@ Update `tests/content/profile-data.test.ts` to assert:
 
 - `profile.headline === 'Learning by making. Leading by learning.'`.
 - `profile.principle === 'Serious about learning / not solemn about it'`.
-- Critical Reader is the first project, links to `/notes/critical-reader/`, and has local image/icon metadata.
+- Una jornada decente is first, featured, links to `/notes/una-jornada-decente/`, and has Play and Source links.
+- Critical Reader is second, links to `/notes/critical-reader/`, Chrome Web Store, and Source, and has local image/icon metadata.
+- Price Scoring Simulator is third, has no note link, links to the live simulator and Source, and mentions its pre-Gobierto exercise provenance.
 - only `Menos features, más negocio` is `featured: true` and it safely has no image.
 
-Update `tests/content/notes.test.ts` so its fixture helper supplies `kind`, `readingMinutes`, and `topics`, and assert sorting returns the same complete note objects without changing draft/future publication rules. The public route test below pins the content-collection-to-summary boundary.
+Update `tests/content/notes.test.ts` so its fixture helper supplies `language`, `kind`, `readingMinutes`, and `topics`, and assert sorting returns the same complete note objects without changing draft/future publication rules. The public route test below pins the content-collection-to-summary boundary.
 
 Update `tests/e2e/notes.spec.ts` to replace the empty-feed expectations with:
 
+- `/notes/una-jornada-decente/` returns 200, has the Spanish title, and declares Spanish language metadata.
 - `/notes/critical-reader/` returns 200 and has the expected title.
 - `/notes/example-draft/` still returns 404.
-- RSS contains one Critical Reader item and no draft item.
-- sitemap contains `critical-reader` and no draft or future note.
+- RSS contains both public notes in the order Una jornada decente then Critical Reader, and no draft item.
+- sitemap contains both public notes and no draft or future note.
 
 - [ ] **Step 2: Run focused tests and confirm they fail**
 
 Run: `npm run test:unit -- tests/content/profile-data.test.ts tests/content/notes.test.ts && npm run build && npm run test:e2e:chromium -- tests/e2e/notes.spec.ts`
 
-Expected: FAIL because project data, editorial frontmatter, and the published note do not exist.
+Expected: FAIL because project data, editorial frontmatter, and the two published notes do not exist.
 
-- [ ] **Step 3: Add the approved Critical Reader assets**
+- [ ] **Step 3: Add the approved project assets**
 
 Create `src/assets/projects/` and copy:
 
@@ -128,20 +141,31 @@ Create `src/assets/projects/` and copy:
 
 Use the current authorised checkout at `/Users/israel/.codex/worktrees/online-private-beta/u`; if that worktree is unavailable, use the same paths from the `gootyfer/critical-reader` repository's current main branch. Verify with `file` that the screenshot is 1280×800 JPEG and the icon is 128×128 PNG.
 
+Capture representative desktop states from the public Una jornada decente game and Price Scoring Simulator into `src/assets/projects/una-jornada-decente.jpg` and `src/assets/projects/price-scoring-simulator.jpg`. Each image must show enough interface to prove what the product does, avoid misleading crops, and have explicit dimensions before it is committed.
+
 - [ ] **Step 4: Implement the typed profile, project, talk, and note contracts**
 
-Add the interfaces listed above. Use `ImageMetadata` from `astro` for local images. Update the notes collection schema to the callback form `schema: ({ image }) => z.object(...)`, with:
+Add the interfaces listed above. Use `ImageMetadata` from `astro` for local images. Store CTAs in `Project.links` so components contain no project-specific URLs. Use the exact public destinations from the brief and these labels: `Play` and `Source` for Una jornada decente, `Install extension` and `Source` for Critical Reader, and `Open simulator` and `Source` for Price Scoring Simulator.
+
+Update the notes collection schema to the callback form `schema: ({ image }) => z.object(...)`, with:
 
 - `kind: z.enum(['build-note', 'product-practice', 'adult-learning', 'talk-note'])`.
+- `language: z.enum(['en', 'es']).default('en')`.
 - `readingMinutes: z.number().int().positive()`.
 - `topics: z.array(z.string().min(1)).default([])`.
 - `image: image().optional()`.
 
 Keep `draft`, `publishedAt`, and `updatedAt` behavior unchanged.
 
-- [ ] **Step 5: Write the first public Critical Reader note**
+- [ ] **Step 5: Publish the supplied Una jornada decente article as the first note**
 
-Create `src/content/notes/critical-reader.md` with exact title `A browser that makes you pause`, `publishedAt: 2026-11-02`, kind `build-note`, `readingMinutes: 6`, topics `critical reading`, `responsible AI`, and `product building`, local hero image `../../assets/projects/critical-reader.jpg`, and `draft: false`.
+Create `src/content/notes/una-jornada-decente.md` with exact title `¿Cómo se convierte una reivindicación educativa en un juego?`, description `Cómo convertir ratios, cansancio y falta de recursos en mecánicas jugables sin presentar al alumnado como el problema.`, `publishedAt: 2026-11-08`, `language: es`, kind `build-note`, `readingMinutes: 8`, topics `diseño de producto`, `aprendizaje mediante juegos`, and `educación pública`, local hero image `../../assets/projects/una-jornada-decente.jpg`, and `draft: false`.
+
+Use the complete Spanish article supplied by Israel. Preserve its wording and direct voice. Add only concise headings around the existing conceptual turns—recognisable interaction, separating students from obstacles, accumulated energy, seasonal progression, data after play, and responsible simplification—and keep the two final public links intact. Do not add Margin notes or invented claims to this article.
+
+- [ ] **Step 6: Write the second public Critical Reader note**
+
+Create `src/content/notes/critical-reader.md` with exact title `A browser that makes you pause`, description `What I learned building a browser extension that highlights discriminatory language without telling readers what to think.`, `publishedAt: 2026-11-02`, `language: en`, kind `build-note`, `readingMinutes: 6`, topics `critical reading`, `responsible AI`, and `product building`, local hero image `../../assets/projects/critical-reader.jpg`, and `draft: false`.
 
 Use the approved narrative and these headings:
 
@@ -151,17 +175,17 @@ Use the approved narrative and these headings:
 
 Include three optional native disclosure blocks using `<details class="margin-note"><summary>…</summary><p>…</p></details>`. Their annotations must add insight or light humour, but the surrounding article must remain complete if none are opened. Do not claim that the extension judges authors or publications; state that it highlights clear expressions only when the reader requests analysis.
 
-- [ ] **Step 6: Run the focused tests and verify they pass**
+- [ ] **Step 7: Run the focused tests and verify they pass**
 
 Run: `npm run check && npm run test:unit -- tests/content/profile-data.test.ts tests/content/notes.test.ts && npm run build && npm run test:e2e:chromium -- tests/e2e/notes.spec.ts`
 
-Expected: PASS; Critical Reader is the only public current note, and the draft remains absent.
+Expected: PASS; Una jornada decente is the newest public note, Critical Reader is second, and draft/future content remains absent.
 
-- [ ] **Step 7: Commit**
+- [ ] **Step 8: Commit**
 
 ```bash
-git add src/assets/projects src/data src/content.config.ts src/content/notes/critical-reader.md src/lib/notes.ts tests/content tests/e2e/notes.spec.ts
-git commit -m "feat: add Critical Reader project and first note"
+git add src/assets/projects src/data src/content.config.ts src/content/notes/una-jornada-decente.md src/content/notes/critical-reader.md src/lib/notes.ts tests/content tests/e2e/notes.spec.ts
+git commit -m "feat: add public projects and first notes"
 ```
 
 ## Task 2: Build the Living Notebook Shell
@@ -220,20 +244,22 @@ git add src/components/Header.astro src/components/Footer.astro src/layouts/Base
 git commit -m "feat: add Living Notebook site shell"
 ```
 
-## Task 3: Build the Homepage Hero, Featured Project, and Learning Log
+## Task 3: Build the Homepage Hero, Project Hierarchy, and Learning Log
 
 **Files:**
 - Create: `src/components/Hero.astro`
 - Create: `src/components/ProjectFeature.astro`
+- Create: `src/components/ProjectList.astro`
 - Modify: `src/components/NotesList.astro`
 - Modify: `src/pages/index.astro`
 - Modify: `src/styles/global.css`
 - Modify: `tests/e2e/homepage.spec.ts`
 
 **Interfaces:**
-- Consumes: `profile`, `projects[0]`, and `NoteSummary[]` from Task 1.
+- Consumes: `profile`, ordered `projects`, and `NoteSummary[]` from Task 1.
 - Produces: `Hero.astro` with no props.
 - Produces: `ProjectFeature.astro` props `{ project: Project }`.
+- Produces: `ProjectList.astro` props `{ projects: readonly Project[] }` for compact secondary projects.
 - Produces: `NotesList.astro` props `{ notes: readonly NoteSummary[] }`, rendering at most the first three public notes.
 
 - [ ] **Step 1: Add failing homepage narrative and image assertions**
@@ -243,15 +269,17 @@ Update `tests/e2e/homepage.spec.ts` to assert:
 - the H1 is `Learning by making. Leading by learning.`.
 - the principle text and `Product Maker at Gobierto · Madrid` are visible.
 - the portrait is visible and its rendered width/height ratio is between `0.99` and `1.01`.
-- `#building` contains Critical Reader's heading, screenshot, icon, and link to `/notes/critical-reader/`.
-- `#notes` contains the Critical Reader note and no `No notes published yet` message.
+- `#building` leads with Una jornada decente, its screenshot, note link, Play link, and Source link.
+- `#building` then contains compact Critical Reader and Price Scoring Simulator entries in that order, with their exact public CTAs.
+- only Una jornada decente uses the primary `.project-feature` treatment; the other two use `.project-compact`.
+- `#notes` contains Una jornada decente first and Critical Reader second, and no `No notes published yet` message.
 - no more than three `.note-card` elements render.
 
 - [ ] **Step 2: Run the focused test and confirm it fails**
 
 Run: `npm run build && npm run test:e2e:chromium -- tests/e2e/homepage.spec.ts -g "professional narrative"`
 
-Expected: FAIL on the old headline, missing project section, and portrait ratio defect.
+Expected: FAIL on the old headline, missing three-project hierarchy, missing public notes, and portrait ratio defect.
 
 - [ ] **Step 3: Implement `Hero.astro`**
 
@@ -259,30 +287,34 @@ Render the approved kicker, H1, concise introduction, principle, and `astro:asse
 
 - [ ] **Step 4: Implement `ProjectFeature.astro`**
 
-Render `<section id="building">` with the project kicker, title, question, description, optimised screenshot, icon, and note link. The screenshot keeps its 8:5 aspect ratio; the icon overlays only when CSS positioning is available and remains decorative with empty alt text.
+Render the primary Una jornada decente project with its kicker, title, question, description, optimised screenshot, note link, and CTA list. Keep the source image's aspect ratio and use descriptive alt text.
 
-- [ ] **Step 5: Convert `NotesList.astro` into the Learning log**
+- [ ] **Step 5: Implement `ProjectList.astro`**
+
+Render Critical Reader and Price Scoring Simulator as compact secondary entries in their data order. Each includes its real image, question, concise description, optional note link, and every `Project.links` CTA. Render the Critical Reader icon only as a contextual decorative accent; do not add company logos or convert the pair into equal-weight cards.
+
+- [ ] **Step 6: Convert `NotesList.astro` into the Learning log**
 
 Render the first three summaries as `.note-card` entries with kind label, title, description, and reading time. Keep a concise resilient empty state for development/preview builds, but do not promise a posting cadence.
 
-- [ ] **Step 6: Compose the homepage in approved order**
+- [ ] **Step 7: Compose the homepage in approved order**
 
-In `index.astro`, render: `Hero`, `ProjectFeature`, `NotesList`, `WorkList`, `TalkList`. Update the page title/description to position Israel as a hands-on product leader in adult learning and edtech without implying availability.
+In `index.astro`, render: `Hero`, `ProjectFeature`, `ProjectList`, `NotesList`, `WorkList`, `TalkList`. Pass `projects[0]` to the feature and `projects.slice(1)` to the compact list. Update the page title/description to position Israel as a hands-on product leader in adult learning and edtech without implying availability.
 
-- [ ] **Step 7: Add the approved desktop and mobile component styles**
+- [ ] **Step 8: Add the approved desktop and mobile component styles**
 
-Implement the prototype's layout classes in `global.css`: 210px desktop portrait, 154–180px mobile portrait, two-column project feature, three-column learning log, monospace section index, and compact rule-led sections. Do not add cards, rounded corners, or shadows to site content.
+Implement the prototype's layout classes in `global.css`: 210px desktop portrait, 154–180px mobile portrait, two-column primary project feature, compact rule-led secondary projects, three-column learning log, monospace section index, and compact rule-led sections. Do not add generic cards, rounded corners, or shadows to site content.
 
-- [ ] **Step 8: Run the focused tests**
+- [ ] **Step 9: Run the focused tests**
 
 Run: `npm run check && npm run build && npm run test:e2e:chromium -- tests/e2e/homepage.spec.ts`
 
-Expected: PASS for hero, project, note, image ratio, and site-shell assertions.
+Expected: PASS for hero, ordered project hierarchy, project links, note order, image ratio, and site-shell assertions.
 
-- [ ] **Step 9: Commit**
+- [ ] **Step 10: Commit**
 
 ```bash
-git add src/components/Hero.astro src/components/ProjectFeature.astro src/components/NotesList.astro src/pages/index.astro src/styles/global.css tests/e2e/homepage.spec.ts
+git add src/components/Hero.astro src/components/ProjectFeature.astro src/components/ProjectList.astro src/components/NotesList.astro src/pages/index.astro src/styles/global.css tests/e2e/homepage.spec.ts
 git commit -m "feat: build Living Notebook homepage"
 ```
 
@@ -360,19 +392,26 @@ In `tests/e2e/notes.spec.ts`, assert `/notes/critical-reader/` has:
 - exactly three `details.margin-note` elements, each closed initially.
 - a visible summary that opens by keyboard and reveals its annotation.
 
+Also assert `/notes/una-jornada-decente/` has:
+
+- one H1 with the approved Spanish title.
+- `<html lang="es">`, Spanish article locale metadata, the game hero image, and `8 min` metadata.
+- the supplied opening and conclusion, all added section headings, and both final public links.
+- no `.margin-note` elements and no copy invented beyond structural headings.
+
 Add a no-JavaScript test using `browser.newContext({ javaScriptEnabled: false })`; navigate to the note, activate the first native summary, and assert the details element opens and its annotation is readable.
 
-Add `/notes/critical-reader/` to the accessibility route matrix.
+Add both new note routes to the accessibility route matrix.
 
 - [ ] **Step 2: Run the focused tests and confirm they fail**
 
 Run: `npm run build && npm run test:e2e:chromium -- tests/e2e/notes.spec.ts tests/e2e/accessibility.spec.ts`
 
-Expected: FAIL because the note uses the old narrow layout and Margin notes are unstyled/unverified.
+Expected: FAIL because the notes use the old narrow layout, Spanish metadata is not yet pinned, and Margin notes are unstyled/unverified.
 
 - [ ] **Step 3: Pass editorial metadata into `NoteLayout`**
 
-Update `src/pages/notes/[...id].astro` to pass `kind`, `readingMinutes`, `topics`, and `image`. Update `BaseLayout` to accept `image?: string | ImageMetadata`; when it receives local image metadata, generate a suitable social image URL with `getImage` instead of constructing a URL from `[object Object]`. Derive `og:image:width` and `og:image:height` from the generated image; keep 1200×630 only for the default card.
+Update `src/pages/notes/[...id].astro` to pass `kind`, `readingMinutes`, `topics`, and `image`. Update `BaseLayout` to accept `image?: string | ImageMetadata`; when it receives local image metadata, generate a suitable social image URL with `getImage` instead of constructing a URL from `[object Object]`. Derive `og:image:width` and `og:image:height` from the generated image; keep 1200×630 only for the default card. Map `language: es` to Spanish document and Open Graph locale metadata while preserving English defaults.
 
 - [ ] **Step 4: Implement the Living Notebook article layout**
 
@@ -386,7 +425,7 @@ In `global.css`, style `.prose details.margin-note` and its `summary` as a highl
 
 Run: `npm run check && npm run build && npm run test:e2e:chromium -- tests/e2e/notes.spec.ts tests/e2e/accessibility.spec.ts`
 
-Expected: PASS in normal and no-JavaScript contexts; axe reports zero A/AA violations on the note.
+Expected: PASS in normal and no-JavaScript contexts; axe reports zero A/AA violations on both notes.
 
 - [ ] **Step 7: Commit**
 
@@ -413,7 +452,7 @@ In `tests/e2e/homepage.spec.ts`, loop over widths `320`, `768`, and `1440` and a
 - `documentElement.scrollWidth <= clientWidth`.
 - header name and every navigation link fit inside the viewport.
 - portrait bounding box ratio is between `0.99` and `1.01` and computed `object-fit` is `contain`.
-- Critical Reader screenshot ratio is between `1.59` and `1.61`.
+- every project image stays within its container and its rendered aspect ratio matches its intrinsic aspect ratio within 1%.
 - every note title and talk title has a non-null bounding box inside the viewport.
 
 In `tests/e2e/accessibility.spec.ts`, assert every interactive summary has a visible focus indicator and that reduced-motion mode sets transition/animation duration on Margin notes to at most `0.01ms`.
@@ -461,7 +500,7 @@ git commit -m "test: pin Living Notebook responsive behavior"
 
 - [ ] **Step 1: Add failing sharing and regression assertions**
 
-Update `tests/e2e/homepage.spec.ts` to expect the new title/description and Person `jobTitle` aligned with hands-on product leadership and adult learning. Update `tests/e2e/notes.spec.ts` to assert the Critical Reader article has `og:type=article`, a local generated `og:image`, matching numeric image-width/image-height metadata, publication date `2026-11-02`, English locale, and Article JSON-LD author data.
+Update `tests/e2e/homepage.spec.ts` to expect the new title/description and Person `jobTitle` aligned with hands-on product leadership and adult learning. Update `tests/e2e/notes.spec.ts` to assert both articles have `og:type=article`, local generated `og:image` values, matching numeric image-width/image-height metadata, their exact publication dates and locales (`es_ES` for Una jornada decente and `en_US` for Critical Reader), and Article JSON-LD author data.
 
 - [ ] **Step 2: Run the metadata tests and confirm they fail**
 
@@ -475,7 +514,7 @@ Update `BaseLayout.astro` Person data to use `Hands-on product leader in adult l
 
 - [ ] **Step 4: Update the release checklist**
 
-Record that Living Notebook, the uncropped portrait, Critical Reader, and Margin notes were approved on 2 November 2026. Add a launch checkbox requiring either an approved reusable talk photograph or explicit approval of the typographic fallback. Do not change DNS or deployment status fields.
+Record that Living Notebook, the uncropped portrait, and Margin notes were approved on 2 November 2026, and that the three-project hierarchy plus the Spanish launch article were approved on 8 November 2026. Add a launch checkbox requiring either an approved reusable talk photograph or explicit approval of the typographic fallback. Do not change DNS or deployment status fields.
 
 - [ ] **Step 5: Run the complete quality gate**
 
@@ -487,8 +526,9 @@ Expected: all formatting, Astro/TypeScript, unit, build, Chromium, Firefox, WebK
 
 Verify:
 
+- `dist/notes/una-jornada-decente/index.html` exists and declares Spanish.
 - `dist/notes/critical-reader/index.html` exists.
-- `dist/rss.xml` includes Critical Reader and no draft.
+- `dist/rss.xml` includes both public notes in the approved order and no draft.
 - `dist/blog/2014/11/03/hackea-tu-educacion-durante-la-universidad/index.html` still exists.
 - `src/assets/social-card.jpg` is 1200×630.
 - `git diff --check` is clean.
@@ -503,8 +543,8 @@ git commit -m "chore: complete Living Notebook release gate"
 
 ## Final Self-Review Result
 
-- **Spec coverage:** positioning, Living Notebook composition, Critical Reader, Notes publishing, selected chapters, talks fallback, Margin notes, responsive portrait, contact links, metadata, legacy routes, accessibility, performance, and release documentation each map to a task.
+- **Spec coverage:** positioning, Living Notebook composition, the ordered three-project hierarchy, both launch notes, selected chapters, talks fallback, Margin notes, responsive portrait, contact links, metadata, legacy routes, accessibility, performance, and release documentation each map to a task.
 - **Step scan:** every implementation step names one file responsibility or one verification action; no production code body is transcribed.
-- **Type consistency:** `Project`, extended `Talk`, `NoteKind`, `NoteData`, and `NoteLayout` props are defined once and consumed by later tasks with the same names.
+- **Type consistency:** `Project`, `ProjectLink`, extended `Talk`, `NoteLanguage`, `NoteKind`, `NoteData`, and `NoteLayout` props are defined once and consumed by later tasks with the same names.
 - **Review focus:** each of the five highest-risk conditions has an explicit owning test.
 - **Proportion:** seven independently reviewable tasks cover the full redesign without splitting into artificial setup-only commits.

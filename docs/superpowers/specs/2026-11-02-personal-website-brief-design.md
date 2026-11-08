@@ -170,13 +170,44 @@ Include a small set of things Israel has built or is actively exploring.
 Projects may include a representative image, a compact description, the
 question being explored, and links to the live result or source when public.
 
-**Critical Reader** should launch as both:
+The initial project hierarchy is deliberately asymmetric:
 
-- The first highlighted independent project.
-- The first learning note, explaining the problem, what was built, how AI was
-  used, and what Israel learned.
+1. **Una jornada decente** is the primary visual feature.
+2. **Critical Reader** is the first secondary project.
+3. **Price Scoring Simulator** is the second secondary project.
 
-The project presentation and the note may share source material, but should not
+The primary feature should have more room for real imagery and context. The two
+secondary projects should remain easy to discover, but use a more compact
+treatment so that the section does not become a uniform portfolio grid or a
+carousel.
+
+**Una jornada decente** is a lightweight web game that helps people experience
+some of the working conditions faced by teachers in Madrid's public education
+system. Its course-long runner mechanic turns growing class ratios, fatigue,
+bureaucracy, poor climate control, leaks, and deteriorating facilities into an
+accessible, visual argument. Its green visual language draws from symbols used
+to defend public education, while its music and humour keep the experience
+engaging without trivialising the underlying claims or treating students as a
+burden.
+
+The feature should use real game captures and link directly to both the playable
+experience at `https://israelgutierrez.es/educacion-publica/` and the public
+source at `https://github.com/gootyfer/educacion-publica`.
+
+Una jornada decente is also the subject of the first published learning note,
+with the Spanish title **¿Cómo se convierte una reivindicación educativa en un
+juego?** The supplied article focuses on the product decisions involved in
+translating ratios, fatigue, and missing resources into playable mechanics
+without misrepresenting students. Publish it in Spanish at launch, preserve the
+author's direct voice, and add only the headings, metadata, local imagery, and
+light structural editing needed for a comfortable reading experience.
+
+**Critical Reader** should launch as the second project and the second published
+learning note. Its presentation should link to both the installable extension at
+`https://chromewebstore.google.com/detail/feklbnkcmcampfdlicejamjjbhncjfmo`
+and the public source at `https://github.com/gootyfer/critical-reader`.
+
+Project presentations and their notes may share source material, but should not
 duplicate the same text verbatim.
 
 Critical Reader is an existing working Chrome-extension beta, not a conceptual
@@ -195,6 +226,14 @@ includes its blue-and-yellow highlighter icon and a real 1280×800 product
 screenshot in the project's extension store assets. Copy those assets into
 the website only after confirming they are the intended public versions; do
 not depend on paths inside another temporary worktree.
+
+**Price Scoring Simulator** should appear as the third, compact project. It is a
+public simulator for exploring economic bid-scoring formulas and should link to
+`https://israelgutierrez.es/price-scoring-simulator/` and
+`https://github.com/gootyfer/price-scoring-simulator`. It was originally built
+as Israel's product exercise before joining Gobierto. Mention that provenance
+once, discreetly, because it demonstrates how Israel learns a difficult domain
+by building; do not present it as work produced for or owned by Gobierto.
 
 ### Talks
 
@@ -395,8 +434,12 @@ as Israel's current thinking.
 2. Produce and iterate disposable visual prototypes. **Completed.**
 3. Approve one visual direction and motion treatment. **Approved: Living
    notebook with Margin notes.**
-4. Write an implementation plan.
-5. Implement and verify.
+4. Approve launch project hierarchy and first article. **Approved 8 November
+   2026: Una jornada decente leads, followed by Critical Reader and Price
+   Scoring Simulator; the supplied Spanish article launches as the first
+   note.**
+5. Write an implementation plan.
+6. Implement and verify.
 
 ## Approved prototype outcome
 
@@ -412,8 +455,10 @@ The approved homepage composition is:
 - A hero led by “Learning by making. Leading by learning.”, a concise
   introduction, the “Serious about learning / not solemn about it” principle,
   and the real square portrait shown without cropping or distortion.
-- Critical Reader as the first large “Now building” feature using its real
-  product screenshot and icon.
+- Una jornada decente as the large primary project feature, using real game
+  captures and links to play and inspect the source.
+- Critical Reader and Price Scoring Simulator as compact secondary projects,
+  each with real imagery, a concise product question, and two useful links.
 - A three-item learning log for product practice, Gobierto, and adult learning.
 - Selected career chapters presented as compact evidence rather than a full CV.
 - A visually prominent selected talk followed by a lighter talk list; use the
