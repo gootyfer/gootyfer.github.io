@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+
+import portrait from '../assets/israel-gutierrez.jpg';
+import { profile } from '../data/profile';
+---
+
+<section class="hero" aria-labelledby="introduction-heading">
+  <div class="hero__copy">
+    <p class="eyebrow">Product · Engineering · Adult learning</p>
+    <h1 id="introduction-heading">{profile.headline}</h1>
+    <div class="hero__introduction">
+      {profile.introduction.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+    </div>
+    <p class="hero__status">{profile.status}</p>
+    <p class="hero__principle">{profile.principle}</p>
+  </div>
+  <figure class="portrait">
+    <Image
+      src={portrait}
+      alt="Portrait of Israel Gutiérrez"
+      widths={[180, 320, 480]}
+      sizes="(min-width: 800px) 210px, 180px"
+      loading="eager"
+    />
+  </figure>
+</section>

@@ -1,0 +1,45 @@
+---
+import { Image } from 'astro:assets';
+
+import type { Project } from '../data/projects';
+
+interface Props {
+  projects: readonly Project[];
+}
+
+const { projects } = Astro.props;
+---
+
+<div class="project-list" aria-label="More selected projects">
+  {projects.map((project, index) => (
+    <article class="project-compact">
+      <div class="project-compact__copy">
+        <p class="section-index">0{index + 2} / Selected build</p>
+        <div class="project-compact__title">
+          {project.icon && (
+            <Image src={project.icon} alt="" width={38} height={38} />
+          )}
+          <h3>{project.title}</h3>
+        </div>
+        <p class="eyebrow">{project.kicker}</p>
+        <p class="project-question">{project.question}</p>
+        <p>{project.description}</p>
+        <div class="project-links">
+          {project.noteHref && (
+            <a href={project.noteHref}>Read the build note</a>
+          )}
+          {project.links.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))}
+        </div>
+      </div>
+      <Image
+        class="project-compact__image"
+        src={project.image}
+        alt={`${project.title} interface`}
+        widths={[480, 720]}
+        sizes="(min-width: 800px) 32vw, 100vw"
+      />
+    </article>
+  ))}
+</div>

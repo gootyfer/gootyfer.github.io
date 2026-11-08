@@ -6,6 +6,7 @@ interface Props {
 }
 
 const { notes } = Astro.props;
+const visibleNotes = notes.slice(0, 3);
 const dateFormatter = new Intl.DateTimeFormat('en', {
   day: 'numeric',
   month: 'long',
@@ -16,19 +17,21 @@ const dateFormatter = new Intl.DateTimeFormat('en', {
 
 <section id="notes" class="content-section" aria-labelledby="notes-heading">
   <div class="section-heading">
-    <p class="eyebrow">Notes</p>
-    <h2 id="notes-heading">What I am learning while building</h2>
-  </div>
-  <div class="notes-introduction">
+    <p class="section-index">02 / Learning log</p>
+    <h2 id="notes-heading">Notes from the workbench</h2>
     <p>
-      Occasional writing about product and engineering leadership, practical AI,
-      public-sector technology, and the lessons that come from building
-      products.
+      Product practice, adult learning, and what becomes visible when an idea is
+      made real.
     </p>
-    {notes.length > 0 ? (
+  </div>
+  <div>
+    {visibleNotes.length > 0 ? (
       <div class="notes-list">
-        {notes.map((note) => (
-          <article class="note-row">
+        {visibleNotes.map((note) => (
+          <article class="note-card" lang={note.language}>
+            <p class="eyebrow">
+              {note.kind.replace('-', ' ')} · {note.readingMinutes} min
+            </p>
             <h3>
               <a href={`/notes/${note.id}/`}>{note.title}</a>
             </h3>

@@ -7,12 +7,10 @@ test('publishes complete identity and sharing metadata', async ({ page }) => {
     'href',
     'https://israelgutierrez.es/',
   );
-  await expect(page).toHaveTitle(
-    'Israel Gutiérrez — Product and engineering leader',
-  );
+  await expect(page).toHaveTitle('Israel Gutiérrez — Hands-on product leader');
   await expect(page.locator('meta[name="description"]')).toHaveAttribute(
     'content',
-    /product and engineering leader/i,
+    /hands-on product leader.*adult learning.*practical AI/i,
   );
   await expect(page.locator('meta[property="og:type"]')).toHaveAttribute(
     'content',
@@ -100,6 +98,9 @@ test('presents the approved professional narrative', async ({ page }) => {
     page.locator('main').getByText('Product Maker at Gobierto · Madrid'),
   ).toBeVisible();
   await expect(
+    page.getByText('Serious about learning / not solemn about it'),
+  ).toBeVisible();
+  await expect(
     page.getByRole('heading', {
       level: 1,
       name: 'Learning by making. Leading by learning.',
@@ -108,6 +109,48 @@ test('presents the approved professional narrative', async ({ page }) => {
   await expect(
     page.getByRole('img', { name: 'Portrait of Israel Gutiérrez' }),
   ).toBeVisible();
+  const portraitBox = await page
+    .getByRole('img', { name: 'Portrait of Israel Gutiérrez' })
+    .boundingBox();
+  expect(portraitBox).not.toBeNull();
+  expect(
+    (portraitBox?.width ?? 0) / (portraitBox?.height ?? 1),
+  ).toBeGreaterThan(0.99);
+  expect((portraitBox?.width ?? 0) / (portraitBox?.height ?? 1)).toBeLessThan(
+    1.01,
+  );
+
+  const building = page.locator('#building');
+  const projectTitles = await building.locator('h2, h3').allTextContents();
+  expect(projectTitles).toEqual([
+    'Una jornada decente',
+    'Critical Reader',
+    'Price Scoring Simulator',
+  ]);
+  await expect(building.locator('.project-feature')).toHaveCount(1);
+  await expect(building.locator('.project-compact')).toHaveCount(2);
+  await expect(
+    building.getByRole('img', { name: /Una jornada decente game/i }),
+  ).toBeVisible();
+  await expect(
+    building.getByRole('link', { name: 'Read the build note' }).first(),
+  ).toHaveAttribute('href', '/notes/una-jornada-decente/');
+  await expect(building.getByRole('link', { name: 'Play' })).toHaveAttribute(
+    'href',
+    'https://israelgutierrez.es/educacion-publica/',
+  );
+  await expect(
+    building.getByRole('link', { name: 'Install extension' }),
+  ).toHaveAttribute(
+    'href',
+    'https://chromewebstore.google.com/detail/feklbnkcmcampfdlicejamjjbhncjfmo',
+  );
+  await expect(
+    building.getByRole('link', { name: 'Open simulator' }),
+  ).toHaveAttribute(
+    'href',
+    'https://israelgutierrez.es/price-scoring-simulator/',
+  );
 
   const work = page.locator('#work');
   for (const title of [
@@ -135,6 +178,15 @@ test('presents the approved professional narrative', async ({ page }) => {
 
   await expect(page.locator('#notes')).toContainText(
     '¿Cómo se convierte una reivindicación educativa en un juego?',
+  );
+  const noteCards = page.locator('#notes .note-card');
+  await expect(noteCards).toHaveCount(2);
+  await expect(noteCards.locator('h3')).toHaveText([
+    '¿Cómo se convierte una reivindicación educativa en un juego?',
+    'A browser that makes you pause',
+  ]);
+  await expect(page.locator('#notes')).not.toContainText(
+    'No notes published yet.',
   );
   await expect(
     page.getByText('Hackea tu educación durante la universidad'),

@@ -1,43 +1,29 @@
 ---
-import { Image } from 'astro:assets';
-
-import portrait from '../assets/israel-gutierrez.jpg';
+import Hero from '../components/Hero.astro';
 import NotesList from '../components/NotesList.astro';
+import ProjectFeature from '../components/ProjectFeature.astro';
+import ProjectList from '../components/ProjectList.astro';
 import TalkList from '../components/TalkList.astro';
 import WorkList from '../components/WorkList.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { profile } from '../data/profile';
+import { projects } from '../data/projects';
 import { getPublishedNotes, toNoteSummary } from '../lib/notes';
 
 const notes = (await getPublishedNotes()).map(toNoteSummary);
 ---
 
 <BaseLayout
-  title={`${profile.name} — Product and engineering leader`}
-  description="Personal website of Israel Gutiérrez, a product and engineering leader based in Madrid."
+  title={`${profile.name} — Hands-on product leader`}
+  description="Israel Gutiérrez is a hands-on product leader working across product, engineering, adult learning, and practical AI."
 >
-  <section class="hero" aria-labelledby="introduction-heading">
-    <div class="hero__copy">
-      <p class="eyebrow">{profile.status}</p>
-      <h1 id="introduction-heading">{profile.headline}</h1>
-      <div class="hero__introduction">
-        {profile.introduction.map((paragraph) => (
-          <p>{paragraph}</p>
-        ))}
-      </div>
-    </div>
-    <figure class="portrait">
-      <Image
-        src={portrait}
-        alt="Portrait of Israel Gutiérrez"
-        widths={[320, 480, 640]}
-        sizes="(min-width: 800px) 24rem, min(80vw, 30rem)"
-        loading="eager"
-      />
-    </figure>
+  <Hero />
+  <section id="building" class="projects" aria-label="Selected projects">
+    <ProjectFeature project={projects[0]} />
+    <ProjectList projects={projects.slice(1)} />
   </section>
 
+  <NotesList notes={notes} />
   <WorkList />
   <TalkList />
-  <NotesList notes={notes} />
 </BaseLayout>

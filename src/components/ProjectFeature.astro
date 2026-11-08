@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<article class="project-feature">
+  <div class="project-feature__copy">
+    <p class="section-index">01 / Now building</p>
+    <p class="eyebrow">{project.kicker}</p>
+    <h2>{project.title}</h2>
+    <p class="project-question">{project.question}</p>
+    <p>{project.description}</p>
+    <div class="project-links">
+      {project.noteHref && <a href={project.noteHref}>Read the build note</a>}
+      {project.links.map((link) => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+    </div>
+  </div>
+  <figure class="project-feature__visual">
+    <Image
+      src={project.image}
+      alt={`${project.title} game start screen`}
+      widths={[640, 960, 1440]}
+      sizes="(min-width: 800px) 52vw, 100vw"
+    />
+  </figure>
+</article>
