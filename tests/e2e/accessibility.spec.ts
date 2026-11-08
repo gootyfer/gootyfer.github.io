@@ -50,13 +50,13 @@ test('the skip link moves keyboard focus to the main content', async ({
   await expect(page.locator('#main-content')).toBeFocused();
 });
 
-test('the mobile header keeps the full identity and contact links in view', async ({
+test('the mobile header keeps the full identity and primary links in view', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 720 });
   await page.goto('/');
 
-  const labels = ['Israel Gutiérrez', 'LinkedIn', 'GitHub', 'Email'];
+  const labels = ['Israel Gutiérrez', 'Notes', 'Work', 'Talks', 'Contact'];
   for (const label of labels) {
     const link = page.locator('header').getByRole('link', { name: label });
     await expect(link).toBeVisible();

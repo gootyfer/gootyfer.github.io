@@ -70,21 +70,39 @@ test('renders the minimal professional site shell', async ({ page }) => {
     page.locator('header').getByRole('link', { name: 'Israel Gutiérrez' }),
   ).toHaveAttribute('href', '/');
 
-  const contactLinks = page.locator('header nav a');
-  await expect(contactLinks).toHaveCount(3);
-  await expect(contactLinks).toHaveText(['LinkedIn', 'GitHub', 'Email']);
+  const primaryLinks = page.locator('header nav a');
+  await expect(primaryLinks).toHaveCount(4);
+  await expect(primaryLinks).toHaveText(['Notes', 'Work', 'Talks', 'Contact']);
+  expect(
+    await primaryLinks.evaluateAll((links) =>
+      links.map((link) => link.getAttribute('href')),
+    ),
+  ).toEqual(['/#notes', '/#work', '/#talks', '/#contact']);
+
+  const footer = page.locator('footer#contact');
+  await expect(footer).toContainText('Product Maker at Gobierto · Madrid');
+  await expect(footer.locator('nav a')).toHaveText([
+    'LinkedIn',
+    'GitHub',
+    'Email',
+    'RSS',
+  ]);
+
+  await expect(
+    page.getByText(/open to work|book a call|services/i),
+  ).toHaveCount(0);
 });
 
 test('presents the approved professional narrative', async ({ page }) => {
   await page.goto('/');
 
   await expect(
-    page.getByText('Product Maker at Gobierto · Madrid'),
+    page.locator('main').getByText('Product Maker at Gobierto · Madrid'),
   ).toBeVisible();
   await expect(
     page.getByRole('heading', {
       level: 1,
-      name: 'I lead product and engineering teams building useful technology.',
+      name: 'Learning by making. Leading by learning.',
     }),
   ).toBeVisible();
   await expect(
@@ -115,7 +133,9 @@ test('presents the approved professional narrative', async ({ page }) => {
   await expect(talks.getByRole('link', { name: 'Emoticrítico' })).toBeVisible();
   await expect(talks.getByText('T3chFest · Madrid · 2016')).toBeVisible();
 
-  await expect(page.locator('#notes')).toContainText('No notes published yet.');
+  await expect(page.locator('#notes')).toContainText(
+    '¿Cómo se convierte una reivindicación educativa en un juego?',
+  );
   await expect(
     page.getByText('Hackea tu educación durante la universidad'),
   ).toHaveCount(0);

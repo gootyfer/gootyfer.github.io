@@ -4,11 +4,15 @@ import { profile } from '../data/profile';
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="site-footer">
-  <p>
-    © {currentYear} {profile.name}
-  </p>
-  <nav aria-label="Footer links">
+<footer class="site-footer" id="contact">
+  <div class="site-footer__introduction">
+    <p class="eyebrow">Keep in touch</p>
+    <p>{profile.status}</p>
+    <p>
+      Product, engineering, adult learning—and the useful mess between them.
+    </p>
+  </div>
+  <nav aria-label="Professional links">
     <ul>
       {profile.links.map((link) => (
         <li>
@@ -20,4 +24,7 @@ const currentYear = new Date().getFullYear();
       </li>
     </ul>
   </nav>
+  <p class="site-footer__copyright">
+    © {currentYear} {profile.name}
+  </p>
 </footer>

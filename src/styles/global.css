@@ -1,15 +1,22 @@
 :root {
-  --color-background: #f5f1e8;
-  --color-surface: #ebe5d9;
-  --color-text: #1d201f;
-  --color-muted: #646662;
-  --color-accent: #8d3f2d;
+  --paper: #f3eddf;
+  --ink: #202321;
+  --muted: #676b65;
+  --green: #315c52;
+  --yellow: #e5c64f;
+  --rust: #9c4937;
+  --rule: color-mix(in srgb, var(--ink) 19%, transparent);
+  --color-background: var(--paper);
+  --color-surface: color-mix(in srgb, var(--ink) 5%, var(--paper));
+  --color-text: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--rust);
   --color-focus: #005fcc;
   --font-display: Georgia, 'Times New Roman', serif;
   --font-sans:
     Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI',
     sans-serif;
-  --measure: 68rem;
+  --measure: 70rem;
   --measure-reading: 42rem;
   --space-1: 0.5rem;
   --space-2: 0.75rem;
@@ -88,8 +95,7 @@ p {
 
 .site-header {
   padding-block: var(--space-4);
-  border-bottom: 1px solid
-    color-mix(in srgb, var(--color-text) 18%, transparent);
+  border-bottom: 1px solid var(--rule);
 }
 
 .site-name {
@@ -118,7 +124,6 @@ p {
 
 main {
   min-height: 55vh;
-  padding-block: var(--space-7);
 }
 
 .hero {
@@ -298,7 +303,7 @@ main {
   margin-block: var(--space-5) 0;
   padding: var(--space-1) var(--space-2);
   background: var(--color-surface);
-  color: var(--color-muted);
+  color: var(--ink);
   font-size: 0.78rem;
   font-weight: 650;
   letter-spacing: 0.08em;
@@ -342,13 +347,28 @@ main {
 }
 
 .site-footer {
-  padding-block: var(--space-5);
-  border-top: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding-block: var(--space-6) var(--space-5);
+  border-top: 1px solid var(--rule);
   color: var(--color-muted);
 }
 
 .site-footer p {
   margin: 0;
+}
+
+.site-footer__introduction p:not(.eyebrow) {
+  margin-top: var(--space-1);
+}
+
+.site-footer__introduction p:last-child {
+  max-width: 34rem;
+}
+
+.site-footer__copyright {
+  grid-column: 1 / -1;
+  padding-top: var(--space-5);
 }
 
 .skip-link {
@@ -367,14 +387,17 @@ main {
 }
 
 @media (max-width: 36rem) {
-  .site-header,
-  .site-footer {
+  .site-header {
     align-items: flex-start;
     flex-direction: column;
   }
 
-  main {
-    padding-block: var(--space-6);
+  .site-footer {
+    grid-template-columns: 1fr;
+  }
+
+  .site-footer__copyright {
+    grid-column: 1;
   }
 }
 
