@@ -244,19 +244,72 @@ test('presents selected chapters and talks with an intentional fallback', async 
   ]);
 });
 
-test('wraps without horizontal overflow at 320 pixels', async ({ page }) => {
-  await page.setViewportSize({ width: 320, height: 720 });
-  await page.goto('/');
+for (const width of [320, 768, 1440]) {
+  test(`keeps the Living Notebook composition intact at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
 
-  const dimensions = await page.evaluate(() => ({
-    documentWidth: document.documentElement.scrollWidth,
-    viewportWidth: document.documentElement.clientWidth,
-  }));
+    const dimensions = await page.evaluate(() => ({
+      documentWidth: document.documentElement.scrollWidth,
+      viewportWidth: document.documentElement.clientWidth,
+    }));
+    expect(dimensions.documentWidth).toBeLessThanOrEqual(
+      dimensions.viewportWidth,
+    );
 
-  expect(dimensions.documentWidth).toBeLessThanOrEqual(
-    dimensions.viewportWidth,
-  );
-});
+    for (const link of await page.locator('header a').all()) {
+      const box = await link.boundingBox();
+      expect(box).not.toBeNull();
+      expect(box?.x ?? -1).toBeGreaterThanOrEqual(0);
+      expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(width);
+    }
+
+    const portrait = page.getByRole('img', {
+      name: 'Portrait of Israel Gutiérrez',
+    });
+    const portraitBox = await portrait.boundingBox();
+    expect(portraitBox).not.toBeNull();
+    expect(
+      (portraitBox?.width ?? 0) / (portraitBox?.height ?? 1),
+    ).toBeGreaterThan(0.99);
+    expect((portraitBox?.width ?? 0) / (portraitBox?.height ?? 1)).toBeLessThan(
+      1.01,
+    );
+    await expect(portrait).toHaveCSS('object-fit', 'contain');
+
+    const projectImages = page.locator(
+      '.project-feature__visual img, .project-compact__image',
+    );
+    for (const image of await projectImages.all()) {
+      const ratio = await image.evaluate((element) => {
+        const img = element as HTMLImageElement;
+        const box = img.getBoundingClientRect();
+        return {
+          rendered: box.width / box.height,
+          intrinsic: img.naturalWidth / img.naturalHeight,
+          right: box.right,
+        };
+      });
+      expect(Math.abs(ratio.rendered - ratio.intrinsic)).toBeLessThan(0.01);
+      expect(ratio.right).toBeLessThanOrEqual(width);
+    }
+
+    for (const title of await page.locator('#notes h3, #talks h3').all()) {
+      const box = await title.boundingBox();
+      expect(box).not.toBeNull();
+      expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(width);
+    }
+
+    if (width === 1440) {
+      for (const card of await page.locator('#notes .note-card').all()) {
+        const box = await card.boundingBox();
+        expect(box?.width ?? 0).toBeGreaterThan(240);
+      }
+    }
+  });
+}
 
 test('shows a visible keyboard focus indicator', async ({ page }) => {
   await page.goto('/');

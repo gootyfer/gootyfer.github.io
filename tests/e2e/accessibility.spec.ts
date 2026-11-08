@@ -80,4 +80,30 @@ test('reduced-motion preferences disable smooth scrolling', async ({
   await page.goto('/');
 
   await expect(page.locator('html')).toHaveCSS('scroll-behavior', 'auto');
+
+  await page.goto('/notes/critical-reader/');
+  const summary = page.locator('details.margin-note summary').first();
+  await summary.focus();
+  const focusStyle = await summary.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      outlineStyle: style.outlineStyle,
+      outlineWidth: Number.parseFloat(style.outlineWidth),
+    };
+  });
+  expect(focusStyle.outlineStyle).not.toBe('none');
+  expect(focusStyle.outlineWidth).toBeGreaterThan(0);
+
+  const motion = await page
+    .locator('details.margin-note p')
+    .first()
+    .evaluate((element) => {
+      const style = getComputedStyle(element);
+      return {
+        animationDuration: Number.parseFloat(style.animationDuration) || 0,
+        transitionDuration: Number.parseFloat(style.transitionDuration) || 0,
+      };
+    });
+  expect(motion.animationDuration).toBeLessThanOrEqual(0.00001);
+  expect(motion.transitionDuration).toBeLessThanOrEqual(0.00001);
 });

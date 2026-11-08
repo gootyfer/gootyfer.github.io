@@ -60,7 +60,8 @@ a:hover {
   text-decoration-color: currentColor;
 }
 
-a:focus-visible {
+a:focus-visible,
+summary:focus-visible {
   border-radius: 0.1rem;
   outline: 0.2rem solid var(--color-focus);
   outline-offset: 0.2rem;
@@ -712,6 +713,14 @@ main {
     grid-template-columns: minmax(13rem, 0.72fr) minmax(0, 1.5fr);
   }
 
+  #notes.content-section {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #notes .section-heading {
+    max-width: 42rem;
+  }
+
   .editorial-row {
     grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 1.2fr);
   }
@@ -733,6 +742,8 @@ main {
   *,
   *::before,
   *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
