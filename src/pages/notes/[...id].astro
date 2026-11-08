@@ -26,6 +26,11 @@ const { Content } = await render(note);
   publishedAt={note.data.publishedAt}
   updatedAt={note.data.updatedAt}
   language={note.data.language}
+  kind={note.data.kind}
+  readingMinutes={note.data.readingMinutes}
+  topics={note.data.topics}
+  image={note.data.image}
+  imageAlt={note.data.imageAlt}
 >
   <Content />
 </NoteLayout>

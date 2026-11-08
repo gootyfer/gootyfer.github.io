@@ -16,6 +16,7 @@ export interface NoteData {
   readingMinutes: number;
   topics: string[];
   image?: ImageMetadata;
+  imageAlt?: string;
 }
 
 export interface NoteSummary extends NoteData {

@@ -11,6 +11,7 @@ topics:
   - aprendizaje mediante juegos
   - educación pública
 image: ../../assets/projects/una-jornada-decente.jpg
+imageAlt: 'Una jornada decente game start screen'
 ---
 
 Esa fue la pregunta que dio origen a Una jornada decente, un pequeño juego web pensado para ayudar a entender algunas de las demandas del profesorado de la educación pública madrileña.

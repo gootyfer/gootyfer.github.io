@@ -1,4 +1,8 @@
 ---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+import type { NoteKind } from '../lib/notes';
 import BaseLayout from './BaseLayout.astro';
 
 interface Props {
@@ -10,6 +14,11 @@ interface Props {
   notice?: string;
   backHref?: string;
   backLabel?: string;
+  kind?: NoteKind;
+  readingMinutes?: number;
+  topics?: string[];
+  image?: ImageMetadata;
+  imageAlt?: string;
 }
 
 const {
@@ -20,14 +29,31 @@ const {
   language = 'en',
   notice,
   backHref = '/#notes',
-  backLabel = 'Back to notes',
+  backLabel,
+  kind,
+  readingMinutes,
+  topics = [],
+  image,
+  imageAlt = '',
 } = Astro.props;
-const dateFormatter = new Intl.DateTimeFormat('en', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  timeZone: 'UTC',
-});
+const resolvedBackLabel =
+  backLabel ?? (language === 'es' ? 'Volver a notas' : 'Back to notes');
+const dateFormatter = new Intl.DateTimeFormat(
+  language === 'es' ? 'es-ES' : 'en-GB',
+  {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  },
+);
+const kindLabels: Record<NoteKind, string> = {
+  'build-note': language === 'es' ? 'Nota de proyecto' : 'Build note',
+  'product-practice':
+    language === 'es' ? 'Práctica de producto' : 'Product practice',
+  'adult-learning': language === 'es' ? 'Aprendizaje adulto' : 'Adult learning',
+  'talk-note': language === 'es' ? 'Nota de charla' : 'Talk note',
+};
 ---
 
 <BaseLayout
@@ -37,30 +63,55 @@ const dateFormatter = new Intl.DateTimeFormat('en', {
   {publishedAt}
   {updatedAt}
   {language}
+  {image}
 >
   <article class="note">
     <header class="note__header">
       <a class="back-link" href={backHref}>
-        ← {backLabel}
+        ← {resolvedBackLabel}
       </a>
       {notice && <p class="archive-notice">{notice}</p>}
+      {(kind || readingMinutes) && (
+        <p class="note__meta metadata">
+          {kind && kindLabels[kind]}
+          {kind && ' · '}
+          <time datetime={publishedAt.toISOString()}>
+            {dateFormatter.format(publishedAt)}
+          </time>
+          {readingMinutes && ` · ${readingMinutes} min`}
+        </p>
+      )}
       <h1>{title}</h1>
       <p class="note__description">{description}</p>
-      <p class="metadata">
-        Published{' '}
-        <time datetime={publishedAt.toISOString()}>
-          {dateFormatter.format(publishedAt)}
-        </time>
-        {updatedAt && (
-          <>
-            {' · Updated '}
-            <time datetime={updatedAt.toISOString()}>
-              {dateFormatter.format(updatedAt)}
-            </time>
-          </>
-        )}
-      </p>
+      {!kind && (
+        <p class="metadata">
+          Published{' '}
+          <time datetime={publishedAt.toISOString()}>
+            {dateFormatter.format(publishedAt)}
+          </time>
+          {updatedAt && (
+            <>
+              {' · Updated '}
+              <time datetime={updatedAt.toISOString()}>
+                {dateFormatter.format(updatedAt)}
+              </time>
+            </>
+          )}
+        </p>
+      )}
+      {topics.length > 0 && <p class="note__topics">{topics.join(' · ')}</p>}
     </header>
+    {image && (
+      <figure class="note__hero">
+        <Image
+          src={image}
+          alt={imageAlt}
+          widths={[720, 1080, 1440]}
+          sizes="(min-width: 1100px) 70rem, 100vw"
+          loading="eager"
+        />
+      </figure>
+    )}
     <div class="prose">
       <slot />
     </div>

@@ -44,9 +44,60 @@ test('publishes both launch notes in newest-first order', async ({
       name: '¿Cómo se convierte una reivindicación educativa en un juego?',
     }),
   ).toBeVisible();
+  await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute(
+    'content',
+    'es_ES',
+  );
+  await expect(
+    page.getByRole('img', { name: /Una jornada decente.*game/i }),
+  ).toBeVisible();
+  await expect(page.locator('.note__meta')).toContainText('8 min');
+  await expect(page.locator('.prose')).toContainText(
+    'Esa fue la pregunta que dio origen a Una jornada decente',
+  );
+  await expect(page.locator('.prose')).toContainText(
+    'el problema no es tener más alumnos',
+  );
+  await expect(page.locator('.prose h2')).toHaveText([
+    'Una interacción que no necesita explicación',
+    'Los alumnos no son el obstáculo',
+    'La dificultad se acumula',
+    'Un curso que cambia con las estaciones',
+    'Primero la experiencia, después los datos',
+    'Elegir qué simplificar',
+  ]);
+  await expect(page.locator('details.margin-note')).toHaveCount(0);
+  await expect(
+    page.getByRole('link', { name: 'Juega a Una jornada decente' }),
+  ).toHaveAttribute('href', 'https://israelgutierrez.es/educacion-publica/');
+  await expect(
+    page.getByRole('link', { name: 'Consulta el código del proyecto' }),
+  ).toHaveAttribute('href', 'https://github.com/gootyfer/educacion-publica');
 
   const criticalResponse = await request.get('/notes/critical-reader/');
   expect(criticalResponse.ok()).toBe(true);
+  await page.goto('/notes/critical-reader/');
+  await expect(
+    page.getByRole('heading', {
+      level: 1,
+      name: 'A browser that makes you pause',
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('img', { name: /Critical Reader.*highlight/i }),
+  ).toBeVisible();
+  await expect(page.locator('.note__meta')).toContainText('Build note');
+  await expect(page.locator('.note__meta')).toContainText('6 min');
+  const marginNotes = page.locator('details.margin-note');
+  await expect(marginNotes).toHaveCount(3);
+  for (const marginNote of await marginNotes.all()) {
+    await expect(marginNote).not.toHaveAttribute('open');
+  }
+  const firstSummary = marginNotes.first().locator('summary');
+  await firstSummary.focus();
+  await page.keyboard.press('Enter');
+  await expect(marginNotes.first()).toHaveAttribute('open', '');
+  await expect(marginNotes.first().locator('p')).toBeVisible();
 
   const response = await request.get('/rss.xml');
 
@@ -77,6 +128,19 @@ test('publishes both launch notes in newest-first order', async ({
   expect(sitemap).toContain('una-jornada-decente');
   expect(sitemap).toContain('critical-reader');
   expect(sitemap).not.toContain('example-draft');
+});
+
+test('margin notes remain usable without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto('/notes/critical-reader/');
+
+  const firstNote = page.locator('details.margin-note').first();
+  await firstNote.locator('summary').click();
+  await expect(firstNote).toHaveAttribute('open', '');
+  await expect(firstNote.locator('p')).toBeVisible();
+
+  await context.close();
 });
 
 test('adds article metadata to the preserved Spanish article', async ({

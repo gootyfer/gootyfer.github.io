@@ -24,6 +24,7 @@ const notes = defineCollection({
       readingMinutes: z.number().int().positive(),
       topics: z.array(z.string().min(1)).default([]),
       image: image().optional(),
+      imageAlt: z.string().min(1).optional(),
     }),
 });
 

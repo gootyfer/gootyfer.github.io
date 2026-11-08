@@ -11,6 +11,7 @@ topics:
   - responsible AI
   - product building
 image: ../../assets/projects/critical-reader.jpg
+imageAlt: 'Critical Reader extension highlighting discriminatory expressions in an article'
 ---
 
 I built Critical Reader because I kept having the same uncomfortable experience: I would sense that a sentence was discriminatory, but I did not always have the vocabulary to explain why.

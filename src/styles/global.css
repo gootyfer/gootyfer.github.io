@@ -456,19 +456,26 @@ main {
 }
 
 .note {
-  max-width: var(--measure-reading);
+  max-width: var(--measure);
   margin-inline: auto;
+  padding-block: var(--space-7);
 }
 
 .note__header {
+  max-width: 48rem;
+  margin-inline: auto;
   padding-bottom: var(--space-6);
   border-bottom: 1px solid
     color-mix(in srgb, var(--color-text) 18%, transparent);
 }
 
 .note__header h1 {
-  margin-top: var(--space-5);
+  margin-top: var(--space-4);
   font-size: clamp(2.6rem, 7vw, 5rem);
+}
+
+.note__meta {
+  margin-top: var(--space-5);
 }
 
 .note__description {
@@ -476,7 +483,28 @@ main {
   font-size: 1.2rem;
 }
 
+.note__topics {
+  margin-top: var(--space-4);
+  color: var(--green);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.76rem;
+  text-transform: lowercase;
+}
+
+.note__hero {
+  margin: var(--space-6) 0 0;
+}
+
+.note__hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+}
+
 .prose {
+  max-width: var(--measure-reading);
+  margin-inline: auto;
   padding-top: var(--space-5);
 }
 
@@ -492,6 +520,51 @@ main {
   overflow-x: auto;
   padding: var(--space-4);
   background: var(--color-surface);
+}
+
+.prose details.margin-note {
+  margin-block: var(--space-5);
+  padding-left: var(--space-4);
+  border-left: 0.2rem solid var(--rust);
+}
+
+.prose details.margin-note summary {
+  width: fit-content;
+  cursor: pointer;
+  color: var(--green);
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  font-style: italic;
+  font-weight: 600;
+  background: linear-gradient(
+    transparent 35%,
+    color-mix(in srgb, var(--yellow) 62%, transparent) 35%,
+    color-mix(in srgb, var(--yellow) 62%, transparent) 90%,
+    transparent 90%
+  );
+}
+
+.prose details.margin-note summary::marker {
+  color: var(--rust);
+}
+
+.prose details.margin-note p {
+  margin: var(--space-3) 0 0 var(--space-3);
+  color: var(--rust);
+  font-size: 0.92rem;
+  animation: margin-note-in 160ms ease-out both;
+}
+
+@keyframes margin-note-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.25rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .back-link {

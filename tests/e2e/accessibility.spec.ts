@@ -3,6 +3,8 @@ import { expect, test } from '@playwright/test';
 
 const routes = [
   '/',
+  '/notes/una-jornada-decente/',
+  '/notes/critical-reader/',
   '/blog/2014/11/03/hackea-tu-educacion-durante-la-universidad/',
   '/this-page-does-not-exist',
 ] as const;
