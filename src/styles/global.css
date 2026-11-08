@@ -332,6 +332,79 @@ main {
   margin-top: var(--space-2);
 }
 
+.chapter-list {
+  border-top: 1px solid var(--rule);
+}
+
+.chapter-row {
+  display: grid;
+  gap: var(--space-3) var(--space-5);
+  padding-block: var(--space-5);
+  border-bottom: 1px solid var(--rule);
+}
+
+.chapter-row h3,
+.talk-feature h3 {
+  font-size: clamp(1.45rem, 3vw, 2rem);
+}
+
+.chapter-row h3 a,
+.talk-feature h3 a {
+  color: var(--ink);
+  text-decoration-color: var(--rust);
+}
+
+.chapter-row p {
+  margin-block: 0;
+}
+
+.talk-feature {
+  display: grid;
+  background: var(--green);
+  color: var(--paper);
+}
+
+.talk-feature__type {
+  display: grid;
+  align-content: center;
+  min-height: 18rem;
+  padding: var(--space-5);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: clamp(2.2rem, 6vw, 5.4rem);
+  font-weight: 800;
+  letter-spacing: -0.07em;
+  line-height: 0.76;
+}
+
+.talk-feature__type span:nth-child(2),
+.talk-feature__type span:nth-child(4) {
+  color: var(--yellow);
+}
+
+.talk-feature__caption {
+  padding: var(--space-5);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.talk-feature__caption h3 {
+  margin-top: var(--space-3);
+}
+
+.talk-feature__caption .metadata {
+  margin-top: var(--space-3);
+}
+
+.talk-feature > img {
+  width: 100%;
+  height: auto;
+}
+
+.talk-list {
+  margin-top: var(--space-4);
+}
+
 .notes-introduction {
   max-width: var(--measure-reading);
   font-size: clamp(1.05rem, 1rem + 0.25vw, 1.25rem);
@@ -568,6 +641,14 @@ main {
 
   .editorial-row {
     grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 1.2fr);
+  }
+
+  .chapter-row {
+    grid-template-columns: minmax(10rem, 0.6fr) minmax(0, 1.15fr) 7rem;
+  }
+
+  .talk-feature {
+    grid-template-columns: minmax(0, 1.2fr) minmax(14rem, 0.8fr);
   }
 }
 

@@ -1,22 +1,60 @@
 ---
+import { Image } from 'astro:assets';
+
 import { talks } from '../data/talks';
+
+const featuredTalk = talks.find((talk) => talk.featured);
+const otherTalks = talks.filter((talk) => !talk.featured);
 ---
 
 <section id="talks" class="content-section" aria-labelledby="talks-heading">
   <div class="section-heading">
-    <p class="eyebrow">Selected talks</p>
+    <p class="section-index">04 / Talks</p>
     <h2 id="talks-heading">Ideas shared in public</h2>
   </div>
-  <div class="talk-list">
-    {talks.map((talk) => (
-      <article class="talk-row">
-        <h3>
-          <a href={talk.url}>{talk.title}</a>
-        </h3>
-        <p class="metadata">
-          {talk.event} · {talk.year}
-        </p>
+  <div>
+    {featuredTalk && (
+      <article
+        class="talk-feature"
+        data-visual={featuredTalk.image ? 'photo' : 'typographic'}
+      >
+        {featuredTalk.image ? (
+          <Image
+            src={featuredTalk.image}
+            alt={`${featuredTalk.title} at ${featuredTalk.event}`}
+            widths={[640, 960]}
+            sizes="(min-width: 800px) 55vw, 100vw"
+          />
+        ) : (
+          <div class="talk-feature__type" aria-hidden="true">
+            <span>LESS</span>
+            <span>FEATURES</span>
+            <span>MORE</span>
+            <span>BUSINESS</span>
+          </div>
+        )}
+        <div class="talk-feature__caption">
+          <p class="eyebrow">Featured talk</p>
+          <h3>
+            <a href={featuredTalk.url}>{featuredTalk.title}</a>
+          </h3>
+          <p class="metadata">
+            {featuredTalk.event} · {featuredTalk.year}
+          </p>
+        </div>
       </article>
-    ))}
+    )}
+    <div class="talk-list">
+      {otherTalks.map((talk) => (
+        <article class="talk-row">
+          <h3>
+            <a href={talk.url}>{talk.title}</a>
+          </h3>
+          <p class="metadata">
+            {talk.event} · {talk.year}
+          </p>
+        </article>
+      ))}
+    </div>
   </div>
 </section>

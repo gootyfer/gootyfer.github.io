@@ -193,6 +193,57 @@ test('presents the approved professional narrative', async ({ page }) => {
   ).toHaveCount(0);
 });
 
+test('presents selected chapters and talks with an intentional fallback', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  const work = page.locator('#work');
+  await expect(
+    work.getByRole('heading', { level: 2, name: 'Selected chapters' }),
+  ).toBeVisible();
+  await expect(work.locator('.chapter-row h3')).toHaveText([
+    'Gobierto',
+    'Leap by Microverse',
+    'Data and learning products',
+    'Research and engineering',
+  ]);
+
+  const talks = page.locator('#talks');
+  const feature = talks.locator('.talk-feature');
+  await expect(feature).toHaveCount(1);
+  await expect(feature).toHaveAttribute('data-visual', 'typographic');
+  await expect(feature.getByRole('img')).toHaveCount(0);
+  await expect(
+    feature.getByRole('link', { name: 'Menos features, más negocio' }),
+  ).toHaveAttribute(
+    'href',
+    'https://es.linkedin.com/posts/israelgutierrezrojas_hace-tiempo-que-no-daba-una-charla-y-me-apetece-activity-7462555072409825280-9o3k',
+  );
+
+  expect(
+    await talks.locator('h3 a').evaluateAll((links) =>
+      links.map((link) => ({
+        text: link.textContent?.trim(),
+        href: link.getAttribute('href'),
+      })),
+    ),
+  ).toEqual([
+    {
+      text: 'Menos features, más negocio',
+      href: 'https://es.linkedin.com/posts/israelgutierrezrojas_hace-tiempo-que-no-daba-una-charla-y-me-apetece-activity-7462555072409825280-9o3k',
+    },
+    {
+      text: 'All you need is front',
+      href: 'https://t3chfest.es/2018/programa/all-you-need-front/',
+    },
+    {
+      text: 'Emoticrítico',
+      href: 'https://t3chfest.es/2016/programa/emoticritico-midiendo-emociones-politicos/?lang=en',
+    },
+  ]);
+});
+
 test('wraps without horizontal overflow at 320 pixels', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 720 });
   await page.goto('/');
