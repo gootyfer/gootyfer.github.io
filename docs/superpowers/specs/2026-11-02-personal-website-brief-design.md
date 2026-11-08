@@ -351,7 +351,8 @@ utility links rather than full navigation destinations.
 Implementation is gated on visual approval. The prototype phase must show:
 
 1. A desktop homepage using real copy, the real portrait, Critical Reader
-   material, and at least one real talk image.
+   material, and either an approved real talk image or the approved
+   typographic fallback while reusable photography is unavailable.
 2. A mobile homepage demonstrating portrait treatment, content order, and
    navigation.
 3. A note detail page showing the intended reading experience.
@@ -390,8 +391,45 @@ as Israel's current thinking.
 
 ## Approval gates
 
-1. Approve this brief.
-2. Produce and iterate disposable visual prototypes.
-3. Approve one visual direction and motion treatment.
+1. Approve this brief. **Approved 2 November 2026.**
+2. Produce and iterate disposable visual prototypes. **Completed.**
+3. Approve one visual direction and motion treatment. **Approved: Living
+   notebook with Margin notes.**
 4. Write an implementation plan.
 5. Implement and verify.
+
+## Approved prototype outcome
+
+The approved visual direction is **Living notebook**. It keeps the professional
+editorial foundation but makes ongoing learning visible through field-note
+language, compact metadata, highlighted experiments, and a restrained
+notebook-like rhythm.
+
+The approved homepage composition is:
+
+- A simple header with Israel's name and links to Notes, Work, Talks, and
+  Contact.
+- A hero led by “Learning by making. Leading by learning.”, a concise
+  introduction, the “Serious about learning / not solemn about it” principle,
+  and the real square portrait shown without cropping or distortion.
+- Critical Reader as the first large “Now building” feature using its real
+  product screenshot and icon.
+- A three-item learning log for product practice, Gobierto, and adult learning.
+- Selected career chapters presented as compact evidence rather than a full CV.
+- A visually prominent selected talk followed by a lighter talk list; use the
+  approved typographic treatment until a reusable real talk photograph is
+  supplied, then preserve the same composition with the photograph.
+- LinkedIn, GitHub, email, and RSS in the footer.
+
+The mobile prototype preserves the same order, uses a 154–180px uncropped
+portrait, stacks imagery and text naturally, and does not hide essential
+content behind a menu.
+
+The approved article direction uses the same visual system with a wide project
+image, readable serif prose, compact metadata, and optional supporting margin
+content. The selected interaction is **Margin notes**: an inline highlighted
+phrase can be activated with mouse, keyboard, or touch to reveal a concise,
+thoughtful or humorous annotation. The article remains complete without
+opening annotations. The interaction must use semantic disclosure controls,
+must not loop, and must remain fully usable with reduced motion or JavaScript
+disabled.
