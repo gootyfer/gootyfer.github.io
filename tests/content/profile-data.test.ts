@@ -118,6 +118,7 @@ describe('professional profile content', () => {
       slidesUrl:
         'https://docs.google.com/presentation/d/10jE0RjhDFcZ9DJQ_o4TKl2cnWMBVXhBde9sIFHo9MWw/edit?usp=sharing',
       tagline: 'Fewer features, more business.',
+      dateLabel: 'May 2026',
       imageAlt: 'Israel Gutiérrez speaking at LechazoConf 2026',
     });
     expect(talks[0].image?.width).toBe(1200);

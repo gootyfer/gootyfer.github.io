@@ -185,7 +185,7 @@ test('presents the approved professional narrative', async ({ page }) => {
     talks.getByRole('heading', { name: 'Menos features, más negocio' }),
   ).toBeVisible();
   await expect(
-    talks.getByText('LechazoConf · Valladolid · 2026'),
+    talks.getByText('LechazoConf · Valladolid · May 2026'),
   ).toBeVisible();
   await expect(
     talks.getByRole('link', { name: 'All you need is front' }),

@@ -39,7 +39,7 @@ const otherTalks = talks.filter((talk) => !talk.featured);
           <p class="eyebrow">Featured talk</p>
           <h3>{featuredTalk.title}</h3>
           <p class="metadata">
-            {featuredTalk.event} · {featuredTalk.year}
+            {featuredTalk.event} · {featuredTalk.dateLabel ?? featuredTalk.year}
           </p>
           {featuredTalk.tagline && (
             <p class="talk-feature__tagline">{featuredTalk.tagline}</p>

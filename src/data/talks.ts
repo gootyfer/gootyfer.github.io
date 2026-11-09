@@ -12,6 +12,7 @@ export interface Talk {
   imageAlt?: string;
   tagline?: string;
   slidesUrl?: string;
+  dateLabel?: string;
 }
 
 export const talks: readonly Talk[] = [
@@ -24,6 +25,7 @@ export const talks: readonly Talk[] = [
     slidesUrl:
       'https://docs.google.com/presentation/d/10jE0RjhDFcZ9DJQ_o4TKl2cnWMBVXhBde9sIFHo9MWw/edit?usp=sharing',
     tagline: 'Fewer features, more business.',
+    dateLabel: 'May 2026',
     image: lechazoConfImage,
     imageAlt: 'Israel Gutiérrez speaking at LechazoConf 2026',
   },
