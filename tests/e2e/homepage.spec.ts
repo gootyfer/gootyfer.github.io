@@ -27,13 +27,21 @@ test('publishes complete identity and sharing metadata', async ({ page }) => {
   const jsonLd = JSON.parse(
     (await page.locator('script[type="application/ld+json"]').textContent()) ??
       '',
-  ) as { '@type': string; url: string; sameAs: string[] };
+  ) as {
+    '@type': string;
+    url: string;
+    sameAs: string[];
+    jobTitle: string;
+  };
   expect(jsonLd['@type']).toBe('Person');
   expect(jsonLd.url).toBe('https://israelgutierrez.es/');
   expect(jsonLd.sameAs).toEqual([
     'https://www.linkedin.com/in/israelgutierrezrojas/',
     'https://github.com/gootyfer',
   ]);
+  expect(jsonLd.jobTitle).toBe(
+    'Hands-on product leader in adult learning and edtech',
+  );
   expect(JSON.stringify(jsonLd)).not.toContain('mailto:');
 });
 
@@ -283,6 +291,15 @@ for (const width of [320, 768, 1440]) {
       '.project-feature__visual img, .project-compact__image',
     );
     for (const image of await projectImages.all()) {
+      await image.scrollIntoViewIfNeeded();
+      await expect
+        .poll(() =>
+          image.evaluate((element) => {
+            const img = element as HTMLImageElement;
+            return img.complete && img.naturalWidth > 0;
+          }),
+        )
+        .toBe(true);
       const ratio = await image.evaluate((element) => {
         const img = element as HTMLImageElement;
         const box = img.getBoundingClientRect();

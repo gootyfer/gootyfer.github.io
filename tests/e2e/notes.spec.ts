@@ -48,6 +48,35 @@ test('publishes both launch notes in newest-first order', async ({
     'content',
     'es_ES',
   );
+  await expect(page.locator('meta[property="og:type"]')).toHaveAttribute(
+    'content',
+    'article',
+  );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    /^https:\/\/israelgutierrez\.es\/_astro\//,
+  );
+  await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute(
+    'content',
+    '1200',
+  );
+  await expect(
+    page.locator('meta[property="og:image:height"]'),
+  ).toHaveAttribute('content', '750');
+  await expect(
+    page.locator('meta[property="article:published_time"]'),
+  ).toHaveAttribute('content', /^2026-11-08/);
+  const gameJsonLd = JSON.parse(
+    (await page.locator('script[type="application/ld+json"]').textContent()) ??
+      '',
+  ) as {
+    '@type': string;
+    inLanguage: string;
+    author: { name: string };
+  };
+  expect(gameJsonLd['@type']).toBe('Article');
+  expect(gameJsonLd.inLanguage).toBe('es');
+  expect(gameJsonLd.author.name).toBe('Israel Gutiérrez');
   await expect(
     page.getByRole('img', { name: /Una jornada decente.*game/i }),
   ).toBeVisible();
@@ -77,6 +106,39 @@ test('publishes both launch notes in newest-first order', async ({
   const criticalResponse = await request.get('/notes/critical-reader/');
   expect(criticalResponse.ok()).toBe(true);
   await page.goto('/notes/critical-reader/');
+  await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute(
+    'content',
+    'en_US',
+  );
+  await expect(page.locator('meta[property="og:type"]')).toHaveAttribute(
+    'content',
+    'article',
+  );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    /^https:\/\/israelgutierrez\.es\/_astro\//,
+  );
+  await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute(
+    'content',
+    '1200',
+  );
+  await expect(
+    page.locator('meta[property="og:image:height"]'),
+  ).toHaveAttribute('content', '750');
+  await expect(
+    page.locator('meta[property="article:published_time"]'),
+  ).toHaveAttribute('content', /^2026-11-02/);
+  const criticalJsonLd = JSON.parse(
+    (await page.locator('script[type="application/ld+json"]').textContent()) ??
+      '',
+  ) as {
+    '@type': string;
+    inLanguage: string;
+    author: { name: string };
+  };
+  expect(criticalJsonLd['@type']).toBe('Article');
+  expect(criticalJsonLd.inLanguage).toBe('en');
+  expect(criticalJsonLd.author.name).toBe('Israel Gutiérrez');
   await expect(
     page.getByRole('heading', {
       level: 1,

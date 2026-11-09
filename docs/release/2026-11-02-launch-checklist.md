@@ -75,18 +75,28 @@ records during the web cutover.
 
 ## Pre-DNS deployment checks
 
-- [ ] CI is green for formatting, Astro/TypeScript, unit/content,
-      configuration, build, and all 66 browser tests.
-- [ ] Homepage renders at mobile and desktop widths.
-- [ ] LinkedIn, GitHub, and email links are correct.
+- [x] CI is green for formatting, Astro/TypeScript, unit/content,
+      configuration, build, and the complete configured browser suite.
+- [x] Homepage renders at mobile and desktop widths.
+- [x] LinkedIn, GitHub, and email links are correct.
 - [x] Portrait approved by Israel for public launch on 2026-11-02.
 - [x] Public email address `me@israelgutierrez.es` approved by Israel on
       2026-11-02.
-- [ ] Selected work and talk claims have been checked one final time.
-- [ ] Exact archived article route returns 200.
-- [ ] RSS, sitemap, robots, 404, favicon, social image, canonical metadata, and
+- [x] Living Notebook direction, uncropped portrait treatment, and semantic
+      Margin notes approved by Israel on 2026-11-02.
+- [x] Una jornada decente as the primary project, followed by Critical Reader
+      and Price Scoring Simulator, plus the Spanish launch article, approved by
+      Israel on 2026-11-08.
+- [x] The deliberate typographic talk fallback is approved for launch while no
+      reusable talk photograph is available; replace it only with an approved
+      photograph and credit.
+- [x] Selected work and talk claims have been checked one final time against
+      the approved brief and their linked public sources.
+- [x] Exact archived article route returns 200.
+- [x] RSS, sitemap, robots, 404, favicon, social image, canonical metadata, and
       JSON-LD are correct.
-- [ ] Axe smoke checks pass on homepage, archived article, and 404.
+- [x] Axe smoke checks pass on homepage, both launch notes, archived article,
+      and 404.
 
 ## Public HTTPS verification
 
