@@ -82,6 +82,7 @@ export const projects: readonly Project[] = [
       'How does the chosen price formula change the result of a public tender?',
     image: priceScoringSimulatorImage,
     featured: false,
+    noteHref: '/notes/price-scoring-simulator/',
     links: [
       {
         label: 'Open simulator',

@@ -159,6 +159,16 @@ test('presents the approved professional narrative', async ({ page }) => {
     'href',
     'https://israelgutierrez.es/price-scoring-simulator/',
   );
+  const simulator = building
+    .locator('.project-compact')
+    .filter({ hasText: 'Price Scoring Simulator' });
+  await expect(
+    simulator.getByRole('link', { name: 'Read the build note' }),
+  ).toHaveAttribute('href', '/notes/price-scoring-simulator/');
+  await expect(simulator.getByRole('link', { name: 'Source' })).toHaveAttribute(
+    'href',
+    'https://github.com/gootyfer/price-scoring-simulator',
+  );
 
   const work = page.locator('#work');
   for (const title of [
@@ -188,8 +198,9 @@ test('presents the approved professional narrative', async ({ page }) => {
     '¿Cómo se convierte una reivindicación educativa en un juego?',
   );
   const noteCards = page.locator('#notes .note-card');
-  await expect(noteCards).toHaveCount(2);
+  await expect(noteCards).toHaveCount(3);
   await expect(noteCards.locator('h3')).toHaveText([
+    'Cómo aprendí sobre licitaciones públicas construyendo un simulador',
     '¿Cómo se convierte una reivindicación educativa en un juego?',
     'A browser that makes you pause',
   ]);

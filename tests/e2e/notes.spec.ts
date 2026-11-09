@@ -30,10 +30,78 @@ test('keeps drafts out of every public surface', async ({ page, request }) => {
   expect(sitemapBodies.join('\n')).not.toContain(draftTitle);
 });
 
-test('publishes both launch notes in newest-first order', async ({
+test('publishes launch notes in newest-first order', async ({
   page,
   request,
 }) => {
+  const simulatorResponse = await request.get(
+    '/notes/price-scoring-simulator/',
+  );
+  expect(simulatorResponse.ok()).toBe(true);
+  await page.goto('/notes/price-scoring-simulator/');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+  await expect(
+    page.getByRole('heading', {
+      level: 1,
+      name: 'Cómo aprendí sobre licitaciones públicas construyendo un simulador',
+    }),
+  ).toBeVisible();
+  await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute(
+    'content',
+    'es_ES',
+  );
+  await expect(page.locator('meta[property="og:type"]')).toHaveAttribute(
+    'content',
+    'article',
+  );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    /^https:\/\/israelgutierrez\.es\/_astro\//,
+  );
+  await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute(
+    'content',
+    '1200',
+  );
+  await expect(
+    page.locator('meta[property="og:image:height"]'),
+  ).toHaveAttribute('content', '750');
+  await expect(
+    page.locator('meta[property="article:published_time"]'),
+  ).toHaveAttribute('content', /^2026-11-09/);
+  const simulatorJsonLd = JSON.parse(
+    (await page.locator('script[type="application/ld+json"]').textContent()) ??
+      '',
+  ) as {
+    '@type': string;
+    inLanguage: string;
+    author: { name: string };
+  };
+  expect(simulatorJsonLd['@type']).toBe('Article');
+  expect(simulatorJsonLd.inLanguage).toBe('es');
+  expect(simulatorJsonLd.author.name).toBe('Israel Gutiérrez');
+  await expect(
+    page.getByRole('img', { name: /simulador.*fórmulas.*valoración/i }),
+  ).toBeVisible();
+  await expect(page.locator('.note__meta')).toContainText('4 min');
+  await expect(page.locator('.prose h2')).toHaveText([
+    'Entender el proceso antes de diseñar',
+    'La fórmula también decide',
+    'Convertir reglas en una interfaz',
+    'Un prototipo para entender',
+  ]);
+  await expect(
+    page.getByRole('link', { name: 'Abre el simulador' }),
+  ).toHaveAttribute(
+    'href',
+    'https://israelgutierrez.es/price-scoring-simulator/',
+  );
+  await expect(
+    page.getByRole('link', { name: 'Consulta el código del proyecto' }),
+  ).toHaveAttribute(
+    'href',
+    'https://github.com/gootyfer/price-scoring-simulator',
+  );
+
   const gameResponse = await request.get('/notes/una-jornada-decente/');
   expect(gameResponse.ok()).toBe(true);
   await page.goto('/notes/una-jornada-decente/');
@@ -169,11 +237,15 @@ test('publishes both launch notes in newest-first order', async ({
   const body = await response.text();
   expect(body).toContain('<?xml');
   expect(body).toContain('<channel>');
+  const simulatorPosition = body.indexOf(
+    'Cómo aprendí sobre licitaciones públicas construyendo un simulador',
+  );
   const gamePosition = body.indexOf(
     '¿Cómo se convierte una reivindicación educativa en un juego?',
   );
   const criticalPosition = body.indexOf('A browser that makes you pause');
-  expect(gamePosition).toBeGreaterThan(-1);
+  expect(simulatorPosition).toBeGreaterThan(-1);
+  expect(gamePosition).toBeGreaterThan(simulatorPosition);
   expect(criticalPosition).toBeGreaterThan(gamePosition);
   expect(body).not.toContain(draftTitle);
 
@@ -187,6 +259,7 @@ test('publishes both launch notes in newest-first order', async ({
   const sitemap = (
     await Promise.all(sitemapResponses.map((entry) => entry.text()))
   ).join('\n');
+  expect(sitemap).toContain('price-scoring-simulator');
   expect(sitemap).toContain('una-jornada-decente');
   expect(sitemap).toContain('critical-reader');
   expect(sitemap).not.toContain('example-draft');
