@@ -19,12 +19,14 @@ const otherTalks = talks.filter((talk) => !talk.featured);
         data-visual={featuredTalk.image ? 'photo' : 'typographic'}
       >
         {featuredTalk.image ? (
-          <Image
-            src={featuredTalk.image}
-            alt={`${featuredTalk.title} at ${featuredTalk.event}`}
-            widths={[640, 960]}
-            sizes="(min-width: 800px) 55vw, 100vw"
-          />
+          <div class="talk-feature__visual">
+            <Image
+              src={featuredTalk.image}
+              alt={featuredTalk.imageAlt ?? ''}
+              widths={[480, 720, 960]}
+              sizes="(min-width: 800px) 32vw, 100vw"
+            />
+          </div>
         ) : (
           <div class="talk-feature__type" aria-hidden="true">
             <span>LESS</span>
@@ -35,12 +37,19 @@ const otherTalks = talks.filter((talk) => !talk.featured);
         )}
         <div class="talk-feature__caption">
           <p class="eyebrow">Featured talk</p>
-          <h3>
-            <a href={featuredTalk.url}>{featuredTalk.title}</a>
-          </h3>
+          <h3>{featuredTalk.title}</h3>
           <p class="metadata">
             {featuredTalk.event} · {featuredTalk.year}
           </p>
+          {featuredTalk.tagline && (
+            <p class="talk-feature__tagline">{featuredTalk.tagline}</p>
+          )}
+          <div class="talk-feature__actions">
+            {featuredTalk.slidesUrl && (
+              <a href={featuredTalk.slidesUrl}>View slides</a>
+            )}
+            <a href={featuredTalk.url}>Conference page</a>
+          </div>
         </div>
       </article>
     )}

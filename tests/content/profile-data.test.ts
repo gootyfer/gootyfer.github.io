@@ -62,6 +62,7 @@ describe('professional profile content', () => {
 
     expect(simulator).toMatchObject({
       featured: false,
+      noteHref: '/notes/price-scoring-simulator/',
       links: [
         {
           label: 'Open simulator',
@@ -73,7 +74,6 @@ describe('professional profile content', () => {
         },
       ],
     });
-    expect(simulator.noteHref).toBeUndefined();
     expect(simulator.description).toContain('before joining Gobierto');
     expect(projects.filter(({ featured }) => featured)).toHaveLength(1);
   });
@@ -112,7 +112,15 @@ describe('professional profile content', () => {
       expect(new URL(talk.url).protocol).toBe('https:');
     }
     expect(talks.filter(({ featured }) => featured)).toHaveLength(1);
-    expect(talks[0]).toMatchObject({ featured: true });
-    expect(talks[0].image).toBeUndefined();
+    expect(talks[0]).toMatchObject({
+      featured: true,
+      url: 'https://lechazoconf.com/2026/index.html#isra',
+      slidesUrl:
+        'https://docs.google.com/presentation/d/10jE0RjhDFcZ9DJQ_o4TKl2cnWMBVXhBde9sIFHo9MWw/edit?usp=sharing',
+      tagline: 'Fewer features, more business.',
+      imageAlt: 'Israel Gutiérrez speaking at LechazoConf 2026',
+    });
+    expect(talks[0].image?.width).toBe(1200);
+    expect(talks[0].image?.height).toBe(1600);
   });
 });

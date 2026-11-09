@@ -182,7 +182,7 @@ test('presents the approved professional narrative', async ({ page }) => {
 
   const talks = page.locator('#talks');
   await expect(
-    talks.getByRole('link', { name: 'Menos features, más negocio' }),
+    talks.getByRole('heading', { name: 'Menos features, más negocio' }),
   ).toBeVisible();
   await expect(
     talks.getByText('LechazoConf · Valladolid · 2026'),
@@ -212,7 +212,7 @@ test('presents the approved professional narrative', async ({ page }) => {
   ).toHaveCount(0);
 });
 
-test('presents selected chapters and talks with an intentional fallback', async ({
+test('presents selected chapters and the photographed featured talk', async ({
   page,
 }) => {
   await page.goto('/');
@@ -231,27 +231,37 @@ test('presents selected chapters and talks with an intentional fallback', async 
   const talks = page.locator('#talks');
   const feature = talks.locator('.talk-feature');
   await expect(feature).toHaveCount(1);
-  await expect(feature).toHaveAttribute('data-visual', 'typographic');
-  await expect(feature.getByRole('img')).toHaveCount(0);
+  await expect(feature).toHaveAttribute('data-visual', 'photo');
   await expect(
-    feature.getByRole('link', { name: 'Menos features, más negocio' }),
+    feature.getByRole('img', {
+      name: 'Israel Gutiérrez speaking at LechazoConf 2026',
+    }),
+  ).toBeVisible();
+  await expect(
+    feature.getByRole('heading', { name: 'Menos features, más negocio' }),
+  ).toBeVisible();
+  await expect(
+    feature.getByText('Fewer features, more business.'),
+  ).toBeVisible();
+  await expect(
+    feature.getByRole('link', { name: 'View slides' }),
   ).toHaveAttribute(
     'href',
-    'https://es.linkedin.com/posts/israelgutierrezrojas_hace-tiempo-que-no-daba-una-charla-y-me-apetece-activity-7462555072409825280-9o3k',
+    'https://docs.google.com/presentation/d/10jE0RjhDFcZ9DJQ_o4TKl2cnWMBVXhBde9sIFHo9MWw/edit?usp=sharing',
   );
+  await expect(
+    feature.getByRole('link', { name: 'Conference page' }),
+  ).toHaveAttribute('href', 'https://lechazoconf.com/2026/index.html#isra');
+  await expect(feature.locator('a[href*="linkedin.com"]')).toHaveCount(0);
 
   expect(
-    await talks.locator('h3 a').evaluateAll((links) =>
+    await talks.locator('.talk-list h3 a').evaluateAll((links) =>
       links.map((link) => ({
         text: link.textContent?.trim(),
         href: link.getAttribute('href'),
       })),
     ),
   ).toEqual([
-    {
-      text: 'Menos features, más negocio',
-      href: 'https://es.linkedin.com/posts/israelgutierrezrojas_hace-tiempo-que-no-daba-una-charla-y-me-apetece-activity-7462555072409825280-9o3k',
-    },
     {
       text: 'All you need is front',
       href: 'https://t3chfest.es/2018/programa/all-you-need-front/',
@@ -297,6 +307,31 @@ for (const width of [320, 768, 1440]) {
       1.01,
     );
     await expect(portrait).toHaveCSS('object-fit', 'contain');
+
+    const talkImage = page.getByRole('img', {
+      name: 'Israel Gutiérrez speaking at LechazoConf 2026',
+    });
+    await talkImage.scrollIntoViewIfNeeded();
+    await expect
+      .poll(() =>
+        talkImage.evaluate((element) => {
+          const img = element as HTMLImageElement;
+          return img.complete && img.naturalWidth > 0;
+        }),
+      )
+      .toBe(true);
+    const talkRatio = await talkImage.evaluate((element) => {
+      const img = element as HTMLImageElement;
+      const box = img.getBoundingClientRect();
+      return {
+        intrinsic: img.naturalWidth / img.naturalHeight,
+        rendered: box.width / box.height,
+        right: box.right,
+      };
+    });
+    expect(Math.abs(talkRatio.intrinsic - 0.75)).toBeLessThan(0.002);
+    expect(Math.abs(talkRatio.rendered - 0.75)).toBeLessThan(0.02);
+    expect(talkRatio.right).toBeLessThanOrEqual(width);
 
     const projectImages = page.locator(
       '.project-feature__visual img, .project-compact__image',

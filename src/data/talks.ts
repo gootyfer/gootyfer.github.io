@@ -1,5 +1,7 @@
 import type { ImageMetadata } from 'astro';
 
+import lechazoConfImage from '../assets/talks/lechazoconf-2026.jpg';
+
 export interface Talk {
   title: string;
   event: string;
@@ -7,6 +9,9 @@ export interface Talk {
   url: string;
   featured?: boolean;
   image?: ImageMetadata;
+  imageAlt?: string;
+  tagline?: string;
+  slidesUrl?: string;
 }
 
 export const talks: readonly Talk[] = [
@@ -15,7 +20,12 @@ export const talks: readonly Talk[] = [
     event: 'LechazoConf · Valladolid',
     year: 2026,
     featured: true,
-    url: 'https://es.linkedin.com/posts/israelgutierrezrojas_hace-tiempo-que-no-daba-una-charla-y-me-apetece-activity-7462555072409825280-9o3k',
+    url: 'https://lechazoconf.com/2026/index.html#isra',
+    slidesUrl:
+      'https://docs.google.com/presentation/d/10jE0RjhDFcZ9DJQ_o4TKl2cnWMBVXhBde9sIFHo9MWw/edit?usp=sharing',
+    tagline: 'Fewer features, more business.',
+    image: lechazoConfImage,
+    imageAlt: 'Israel Gutiérrez speaking at LechazoConf 2026',
   },
   {
     title: 'All you need is front',
