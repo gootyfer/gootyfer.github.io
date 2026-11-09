@@ -26,14 +26,14 @@ interface Workflow {
 }
 
 describe('GitHub Pages deployment', () => {
-  test('checks pull requests and deploys the built site from main', () => {
+  test('checks pull requests and deploys the built site from master', () => {
     const source = readFileSync(
       resolve(root, '.github/workflows/deploy.yml'),
       'utf8',
     );
     const workflow = parse(source) as Workflow;
 
-    expect(workflow.on.push?.branches).toContain('main');
+    expect(workflow.on.push?.branches).toEqual(['master']);
     expect(workflow.on.pull_request).toBeDefined();
     expect(workflow.permissions).toMatchObject({
       contents: 'read',
