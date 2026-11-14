@@ -560,6 +560,12 @@ main {
   max-width: 100%;
 }
 
+.prose img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .prose pre {
   overflow-x: auto;
   padding: var(--space-4);

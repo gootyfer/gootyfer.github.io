@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test';
 
 const routes = [
   '/',
+  '/notes/fantasma-de-la-opera/',
   '/notes/price-scoring-simulator/',
   '/notes/una-jornada-decente/',
   '/notes/critical-reader/',

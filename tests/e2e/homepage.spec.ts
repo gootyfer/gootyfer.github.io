@@ -200,9 +200,9 @@ test('presents the approved professional narrative', async ({ page }) => {
   const noteCards = page.locator('#notes .note-card');
   await expect(noteCards).toHaveCount(3);
   await expect(noteCards.locator('h3')).toHaveText([
+    'Cómo construimos un pequeño Fantasma de la Ópera en pixel art',
     'Cómo aprendí sobre licitaciones públicas construyendo un simulador',
     '¿Cómo se convierte una reivindicación educativa en un juego?',
-    'A browser that makes you pause',
   ]);
   await expect(page.locator('#notes')).not.toContainText(
     'No notes published yet.',

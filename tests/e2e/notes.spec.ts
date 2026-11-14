@@ -34,6 +34,81 @@ test('publishes launch notes in newest-first order', async ({
   page,
   request,
 }) => {
+  const phantomResponse = await request.get('/notes/fantasma-de-la-opera/');
+  expect(phantomResponse.ok()).toBe(true);
+  await page.goto('/notes/fantasma-de-la-opera/');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+  await expect(
+    page.getByRole('heading', {
+      level: 1,
+      name: 'Cómo construimos un pequeño Fantasma de la Ópera en pixel art',
+    }),
+  ).toBeVisible();
+  await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute(
+    'content',
+    'es_ES',
+  );
+  await expect(page.locator('meta[property="og:type"]')).toHaveAttribute(
+    'content',
+    'article',
+  );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    /^https:\/\/israelgutierrez\.es\/_astro\//,
+  );
+  await expect(
+    page.locator('meta[property="article:published_time"]'),
+  ).toHaveAttribute('content', /^2026-11-14/);
+  const phantomJsonLd = JSON.parse(
+    (await page.locator('script[type="application/ld+json"]').textContent()) ??
+      '',
+  ) as {
+    '@type': string;
+    inLanguage: string;
+    author: { name: string };
+  };
+  expect(phantomJsonLd['@type']).toBe('Article');
+  expect(phantomJsonLd.inLanguage).toBe('es');
+  expect(phantomJsonLd.author.name).toBe('Israel Gutiérrez');
+  await expect(
+    page.getByRole('img', { name: 'Captura del juego Fantasma de la Ópera' }),
+  ).toBeVisible();
+  const conceptArt = page.getByRole('img', {
+    name: 'Concept art usado para definir el tono visual',
+  });
+  await expect(conceptArt).toBeVisible();
+  const conceptArtSize = await conceptArt.evaluate((image) => {
+    const renderedImage = image as HTMLImageElement;
+    const rendered = renderedImage.getBoundingClientRect();
+    const parent = renderedImage.parentElement?.getBoundingClientRect();
+    const intrinsicWidth = Number(renderedImage.getAttribute('width'));
+    const intrinsicHeight = Number(renderedImage.getAttribute('height'));
+    return {
+      naturalRatio: intrinsicWidth / intrinsicHeight,
+      parentWidth: parent?.width ?? 0,
+      renderedRatio: rendered.width / rendered.height,
+      renderedWidth: rendered.width,
+    };
+  });
+  expect(conceptArtSize.renderedWidth).toBeCloseTo(
+    conceptArtSize.parentWidth,
+    0,
+  );
+  expect(conceptArtSize.renderedRatio).toBeCloseTo(
+    conceptArtSize.naturalRatio,
+    2,
+  );
+  await expect(page.locator('.note__meta')).toContainText('5 min');
+  await expect(page.locator('.prose h2')).toHaveText([
+    'Diseñar antes de programar',
+    'La música también forma parte del diseño',
+    'De prototipo a juego móvil',
+    'Lo que aprendimos',
+  ]);
+  await expect(
+    page.getByRole('link', { name: 'Juega a Fantasma de la Ópera' }),
+  ).toHaveAttribute('href', 'https://israelgutierrez.es/fantasma-de-la-opera/');
+
   const simulatorResponse = await request.get(
     '/notes/price-scoring-simulator/',
   );
@@ -237,6 +312,9 @@ test('publishes launch notes in newest-first order', async ({
   const body = await response.text();
   expect(body).toContain('<?xml');
   expect(body).toContain('<channel>');
+  const phantomPosition = body.indexOf(
+    'Cómo construimos un pequeño Fantasma de la Ópera en pixel art',
+  );
   const simulatorPosition = body.indexOf(
     'Cómo aprendí sobre licitaciones públicas construyendo un simulador',
   );
@@ -244,7 +322,8 @@ test('publishes launch notes in newest-first order', async ({
     '¿Cómo se convierte una reivindicación educativa en un juego?',
   );
   const criticalPosition = body.indexOf('A browser that makes you pause');
-  expect(simulatorPosition).toBeGreaterThan(-1);
+  expect(phantomPosition).toBeGreaterThan(-1);
+  expect(simulatorPosition).toBeGreaterThan(phantomPosition);
   expect(gamePosition).toBeGreaterThan(simulatorPosition);
   expect(criticalPosition).toBeGreaterThan(gamePosition);
   expect(body).not.toContain(draftTitle);
@@ -259,6 +338,7 @@ test('publishes launch notes in newest-first order', async ({
   const sitemap = (
     await Promise.all(sitemapResponses.map((entry) => entry.text()))
   ).join('\n');
+  expect(sitemap).toContain('fantasma-de-la-opera');
   expect(sitemap).toContain('price-scoring-simulator');
   expect(sitemap).toContain('una-jornada-decente');
   expect(sitemap).toContain('critical-reader');
