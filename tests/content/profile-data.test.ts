@@ -41,7 +41,8 @@ describe('professional profile content', () => {
         },
       ],
     });
-    expect(game.image.width).toBeGreaterThan(0);
+    expect(game.image.width).toBe(1672);
+    expect(game.image.height).toBe(941);
 
     expect(criticalReader).toMatchObject({
       featured: false,

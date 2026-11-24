@@ -205,10 +205,13 @@ test('publishes launch notes in newest-first order', async ({
   );
   await expect(
     page.locator('meta[property="og:image:height"]'),
-  ).toHaveAttribute('content', '750');
+  ).toHaveAttribute('content', '675');
   await expect(
     page.locator('meta[property="article:published_time"]'),
   ).toHaveAttribute('content', /^2026-11-08/);
+  await expect(
+    page.locator('meta[property="article:modified_time"]'),
+  ).toHaveAttribute('content', /^2026-11-24/);
   const gameJsonLd = JSON.parse(
     (await page.locator('script[type="application/ld+json"]').textContent()) ??
       '',
@@ -216,14 +219,20 @@ test('publishes launch notes in newest-first order', async ({
     '@type': string;
     inLanguage: string;
     author: { name: string };
+    datePublished: string;
+    dateModified: string;
   };
   expect(gameJsonLd['@type']).toBe('Article');
   expect(gameJsonLd.inLanguage).toBe('es');
   expect(gameJsonLd.author.name).toBe('Israel Gutiérrez');
+  expect(gameJsonLd.datePublished).toMatch(/^2026-11-08/);
+  expect(gameJsonLd.dateModified).toMatch(/^2026-11-24/);
   await expect(
-    page.getByRole('img', { name: /Una jornada decente.*game/i }),
+    page.getByRole('img', {
+      name: 'Docente y alumnado corriendo por un colegio público en Una jornada decente',
+    }),
   ).toBeVisible();
-  await expect(page.locator('.note__meta')).toContainText('8 min');
+  await expect(page.locator('.note__meta')).toContainText('10 min');
   await expect(page.locator('.prose')).toContainText(
     'Esa fue la pregunta que dio origen a Una jornada decente',
   );
@@ -237,7 +246,17 @@ test('publishes launch notes in newest-first order', async ({
     'Un curso que cambia con las estaciones',
     'Primero la experiencia, después los datos',
     'Elegir qué simplificar',
+    'Rediseñar antes de volver a programar',
   ]);
+  await expect(
+    page.getByRole('heading', {
+      level: 2,
+      name: 'Rediseñar antes de volver a programar',
+    }),
+  ).toHaveCount(1);
+  await expect(page.locator('.prose')).toContainText(
+    'Después de publicar la primera versión de Una jornada decente',
+  );
   await expect(page.locator('details.margin-note')).toHaveCount(0);
   await expect(
     page.getByRole('link', { name: 'Juega a Una jornada decente' }),

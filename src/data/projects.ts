@@ -3,7 +3,7 @@ import type { ImageMetadata } from 'astro';
 import criticalReaderImage from '../assets/projects/critical-reader.jpg';
 import criticalReaderIcon from '../assets/projects/critical-reader-icon.png';
 import priceScoringSimulatorImage from '../assets/projects/price-scoring-simulator.jpg';
-import unaJornadaDecenteImage from '../assets/projects/una-jornada-decente.jpg';
+import unaJornadaDecenteImage from '../assets/projects/una-jornada-decente-redesign.png';
 
 export type ProjectId =
   'una-jornada-decente' | 'critical-reader' | 'price-scoring-simulator';
@@ -20,6 +20,7 @@ export interface Project {
   description: string;
   question: string;
   image: ImageMetadata;
+  imageAlt?: string;
   icon?: ImageMetadata;
   featured: boolean;
   noteHref?: string;
@@ -36,6 +37,8 @@ export const projects: readonly Project[] = [
     question:
       'How can a game make working conditions tangible without presenting students as the problem?',
     image: unaJornadaDecenteImage,
+    imageAlt:
+      'Docente y alumnado corriendo por un colegio público en Una jornada decente',
     featured: true,
     noteHref: '/notes/una-jornada-decente/',
     links: [

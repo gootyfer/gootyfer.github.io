@@ -36,7 +36,7 @@ const { projects } = Astro.props;
       <Image
         class="project-compact__image"
         src={project.image}
-        alt={`${project.title} interface`}
+        alt={project.imageAlt ?? `${project.title} interface`}
         widths={[480, 720]}
         sizes="(min-width: 800px) 32vw, 100vw"
       />

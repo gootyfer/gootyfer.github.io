@@ -138,7 +138,9 @@ test('presents the approved professional narrative', async ({ page }) => {
   await expect(building.locator('.project-feature')).toHaveCount(1);
   await expect(building.locator('.project-compact')).toHaveCount(2);
   await expect(
-    building.getByRole('img', { name: /Una jornada decente game/i }),
+    building.getByRole('img', {
+      name: 'Docente y alumnado corriendo por un colegio público en Una jornada decente',
+    }),
   ).toBeVisible();
   await expect(
     building.getByRole('link', { name: 'Read the build note' }).first(),

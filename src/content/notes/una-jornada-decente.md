@@ -2,16 +2,17 @@
 title: '¿Cómo se convierte una reivindicación educativa en un juego?'
 description: 'Cómo convertir ratios, cansancio y falta de recursos en mecánicas jugables sin presentar al alumnado como el problema.'
 publishedAt: 2026-11-08
+updatedAt: 2026-11-24
 draft: false
 language: es
 kind: build-note
-readingMinutes: 8
+readingMinutes: 10
 topics:
   - diseño de producto
   - aprendizaje mediante juegos
   - educación pública
-image: ../../assets/projects/una-jornada-decente.jpg
-imageAlt: 'Una jornada decente game start screen'
+image: ../../assets/projects/una-jornada-decente-redesign.png
+imageAlt: 'Docente y alumnado corriendo por un colegio público en Una jornada decente'
 ---
 
 Esa fue la pregunta que dio origen a Una jornada decente, un pequeño juego web pensado para ayudar a entender algunas de las demandas del profesorado de la educación pública madrileña.
@@ -91,6 +92,20 @@ El centro de la experiencia son las condiciones: ratios elevadas, falta de apoyo
 Un juego simplifica necesariamente la realidad. La responsabilidad está en decidir qué simplifica y qué mensaje producen esas simplificaciones.
 
 En este caso, la idea que quería conservar era sencilla: el problema no es tener más alumnos, sino pretender atenderlos igual de bien sin aumentar el tiempo, los apoyos y los recursos disponibles.
+
+## Rediseñar antes de volver a programar
+
+Después de publicar la primera versión de _Una jornada decente_, decidimos rehacer el juego casi por completo. El objetivo no era simplemente mejorar sus gráficos, sino encontrar una identidad visual y una forma de jugar que transmitieran mejor su mensaje.
+
+Una de las decisiones principales fue no dejar que el prototipo anterior condicionara el resultado. Antes de volver al código definimos el estilo —una caricatura en pixel art de 16 bits— y diseñamos los elementos principales: profesorado, alumnado diverso, obstáculos, escenarios estacionales, interfaz y pantallas narrativas.
+
+La metáfora central no cambió: el alumnado no representa una carga. Es el grupo que acompaña al docente y crece para hacer visible el aumento de las ratios. Lo que sí revisamos fue cómo se traducía esa idea en la partida. Recalibramos la energía, la dificultad, la frecuencia de los obstáculos y la distribución de los acompañantes para que la presión aumentara de forma progresiva durante los tres trimestres.
+
+Para implementar esta nueva dirección elegimos Phaser y reescribimos prácticamente todo el juego. Mantener el código anterior habría obligado a adaptar demasiadas decisiones heredadas. Phaser nos permitió organizar mejor las escenas, las animaciones, las colisiones, el sonido y la progresión del curso. La música también pasó a formar parte del ritmo de la partida: acelera a medida que aumenta la presión y acompaña las transiciones entre trimestres.
+
+Uno de los mayores aprendizajes fue que diseñar para móvil no termina cuando el juego funciona en el navegador. Convertirlo en una PWA instalable implicó preparar sus iconos y resolver particularidades de los dispositivos reales: el escalado del juego, las áreas seguras en pantalla completa y la activación de la música mediante una primera interacción en iPhone.
+
+El proceso confirmó algo sencillo pero importante: validar primero el lenguaje visual y las metáforas evita programar sobre decisiones todavía débiles. El resultado es un juego más coherente, más representativo y mucho más cercano a la experiencia que queríamos contar.
 
 [Juega a Una jornada decente](https://israelgutierrez.es/educacion-publica/)
 

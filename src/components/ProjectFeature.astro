@@ -27,7 +27,7 @@ const { project } = Astro.props;
   <figure class="project-feature__visual">
     <Image
       src={project.image}
-      alt={`${project.title} game start screen`}
+      alt={project.imageAlt ?? `${project.title} game start screen`}
       widths={[640, 960, 1440]}
       sizes="(min-width: 800px) 52vw, 100vw"
     />
